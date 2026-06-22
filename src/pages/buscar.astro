@@ -1,14 +1,76 @@
 ---
 import Base from '../layouts/Base.astro';
-import Search from 'astro-pagefind/components/Search.astro';
+import Mascot from '../components/Mascot.astro';
 import { getSoftware } from '../lib/data';
 const total = getSoftware().length;
+const suggestions = ['Notion', 'Google Drive', 'VPN', 'fotos', 'Nextcloud', 'senhas', 'streaming'];
 ---
 <Base title="Buscar entre apps self-hosted"
       description="Procure entre mais de mil ferramentas self-hosted e open source.">
-  <h1 class="text-3xl font-bold text-ink">Buscar</h1>
-  <p class="text-muted mt-2">Procure entre {total.toLocaleString('pt-BR')} apps self-hosted por nome, categoria ou descrição.</p>
-  <div class="mt-6 max-w-2xl" data-pagefind-ignore>
-    <Search id="search" className="pagefind-ui" uiOptions={{ showImages: false, showSubResults: true, translations: { placeholder: 'Ex.: nextcloud, vpn, fotos…', zero_results: 'Nada encontrado para "[SEARCH_TERM]"' } }} />
-  </div>
+  <section class="hero-gradient rounded-3xl border border-line px-6 py-12 text-center">
+    <div class="flex justify-center"><Mascot class="w-24 h-24" /></div>
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-ink mt-3">O que você quer self-hostar?</h1>
+    <p class="text-muted mt-2">Busque entre {total.toLocaleString('pt-BR')} apps por nome, categoria ou descrição.</p>
+
+    <div class="relative mt-6 max-w-2xl mx-auto">
+      <span class="absolute left-5 top-1/2 -translate-y-1/2 text-xl text-muted">🔍</span>
+      <input id="q" type="search" autocomplete="off" enterkeyhint="search"
+             placeholder="Ex.: Notion, VPN, fotos, Nextcloud…"
+             class="w-full rounded-2xl border border-line bg-panel pl-14 pr-4 py-4 text-lg text-ink shadow-sm focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent transition" />
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-2 mt-4">
+      {suggestions.map((s) => (
+        <button type="button" data-q={s}
+                class="text-sm px-3 py-1.5 rounded-full border border-line bg-panel/70 text-muted hover:text-ink hover:border-accent transition">{s}</button>
+      ))}
+    </div>
+  </section>
+
+  <p id="status" class="text-sm text-muted mt-8 mb-4"></p>
+  <div id="results" class="grid sm:grid-cols-2 gap-4"></div>
+
+  <script is:inline type="module">
+    const input = document.getElementById('q');
+    const results = document.getElementById('results');
+    const status = document.getElementById('status');
+    let pf, timer;
+
+    async function ensure() {
+      if (!pf) { pf = await import('/pagefind/pagefind.js'); if (pf.init) await pf.init(); }
+      return pf;
+    }
+
+    function clean(t) { return (t || '').replace(/\s*\|\s*SelfHost Directory\s*$/, ''); }
+
+    async function run() {
+      const q = input.value.trim();
+      if (!q) { results.innerHTML = ''; status.textContent = ''; return; }
+      status.textContent = 'Buscando…';
+      const p = await ensure();
+      const search = await p.search(q);
+      const data = await Promise.all(search.results.slice(0, 24).map((r) => r.data()));
+      if (!data.length) {
+        results.innerHTML = '';
+        status.innerHTML = 'Nada encontrado para <strong>' + q + '</strong>. Tente outro termo ou <a class="text-accent underline" href="/categories">veja as categorias</a>.';
+        return;
+      }
+      status.textContent = data.length + (search.results.length > data.length ? '+ ' : ' ') + 'resultado(s)';
+      results.innerHTML = data.map((d) =>
+        '<a href="' + d.url + '" class="block rounded-xl border border-line bg-panel p-4 shadow-sm hover:shadow-md hover:border-accent/40 hover:-translate-y-0.5 transition-all">' +
+          '<div class="font-semibold text-ink">' + clean(d.meta && d.meta.title) + '</div>' +
+          '<p class="pf-excerpt text-sm text-muted mt-1 line-clamp-3">' + d.excerpt + '</p>' +
+        '</a>'
+      ).join('');
+    }
+
+    input.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(run, 180); });
+    document.querySelectorAll('[data-q]').forEach((b) =>
+      b.addEventListener('click', () => { input.value = b.dataset.q; input.focus(); run(); }));
+
+    // busca inicial via ?q= e foco
+    const params = new URLSearchParams(location.search);
+    if (params.get('q')) { input.value = params.get('q'); run(); }
+    input.focus();
+  </script>
 </Base>
