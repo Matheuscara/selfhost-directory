@@ -1,9 +1,10 @@
 ---
 // Mascote do SelfHost Directory: "Hostie" — um servidor-casinha amigável.
-// Uso: <Mascot class="w-56 h-56" />
+// Animações (flutuar / piscar / hover) definidas em global.css. Uso: <Mascot class="w-56 h-56" />
 const { class: klass = 'w-56 h-56' } = Astro.props as { class?: string };
 ---
-<svg class={klass} viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hostie, o mascote">
+<span class="mascot-float">
+<svg class={`mascot ${klass}`} viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hostie, o mascote">
   <defs>
     <linearGradient id="body" x1="64" y1="78" x2="176" y2="186" gradientUnits="userSpaceOnUse">
       <stop stop-color="#6366f1" />
@@ -18,11 +19,11 @@ const { class: klass = 'w-56 h-56' } = Astro.props as { class?: string };
   <!-- sombra -->
   <ellipse cx="120" cy="214" rx="74" ry="12" fill="#0f172a" opacity="0.08" />
 
-  <!-- antena -->
+  <!-- antena com LED piscando -->
   <line x1="120" y1="40" x2="120" y2="22" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" />
-  <circle cx="120" cy="18" r="7" fill="#0d9488" />
   <circle cx="120" cy="18" r="7" fill="#0d9488">
-    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
+    <animate attributeName="opacity" values="1;0.35;1" dur="1.8s" repeatCount="indefinite" />
+    <animate attributeName="r" values="7;8.5;7" dur="1.8s" repeatCount="indefinite" />
   </circle>
 
   <!-- telhado (casa = self-hosted) -->
@@ -34,11 +35,13 @@ const { class: klass = 'w-56 h-56' } = Astro.props as { class?: string };
   <!-- painel do rosto -->
   <rect x="80" y="96" width="80" height="46" rx="13" fill="#ffffff" />
 
-  <!-- olhos -->
-  <circle cx="103" cy="118" r="7.5" fill="#0f172a" />
-  <circle cx="137" cy="118" r="7.5" fill="#0f172a" />
-  <circle cx="105.5" cy="115.5" r="2.4" fill="#ffffff" />
-  <circle cx="139.5" cy="115.5" r="2.4" fill="#ffffff" />
+  <!-- olhos (grupo animado: pisca) -->
+  <g class="eyes">
+    <circle cx="103" cy="118" r="7.5" fill="#0f172a" />
+    <circle cx="137" cy="118" r="7.5" fill="#0f172a" />
+    <circle cx="105.5" cy="115.5" r="2.4" fill="#ffffff" />
+    <circle cx="139.5" cy="115.5" r="2.4" fill="#ffffff" />
+  </g>
 
   <!-- bochechas -->
   <circle cx="90" cy="128" r="4" fill="#f9a8d4" opacity="0.7" />
@@ -48,11 +51,16 @@ const { class: klass = 'w-56 h-56' } = Astro.props as { class?: string };
   <path d="M108 130 Q120 140 132 130" stroke="#0f172a" stroke-width="3" stroke-linecap="round" fill="none" />
 
   <!-- LEDs / slots do servidor -->
-  <circle cx="92" cy="162" r="4.5" fill="#34d399" />
-  <circle cx="108" cy="162" r="4.5" fill="#fbbf24" />
+  <circle cx="92" cy="162" r="4.5" fill="#34d399">
+    <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="108" cy="162" r="4.5" fill="#fbbf24">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="0.9s" repeatCount="indefinite" />
+  </circle>
   <rect x="122" y="158" width="36" height="8" rx="4" fill="#ffffff" opacity="0.55" />
 
   <!-- pezinhos -->
   <rect x="80" y="183" width="20" height="13" rx="5" fill="#4338ca" />
   <rect x="140" y="183" width="20" height="13" rx="5" fill="#4338ca" />
 </svg>
+</span>
