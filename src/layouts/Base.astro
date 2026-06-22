@@ -3,6 +3,7 @@ import '../styles/global.css';
 const { title, description } = Astro.props as { title: string; description?: string };
 const desc = description ?? 'Diretório de alternativas self-hosted e open source. Encontre o app certo pra rodar no seu servidor.';
 const SITE_NAME = 'SelfHost Directory';
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
 <!doctype html>
 <html lang="pt-BR">
@@ -11,10 +12,15 @@ const SITE_NAME = 'SelfHost Directory';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={desc} />
+    <link rel="canonical" href={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={desc} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <slot name="head" />
   </head>
   <body class="min-h-screen flex flex-col">
     <header class="border-b border-line bg-panel/70 backdrop-blur sticky top-0 z-10">

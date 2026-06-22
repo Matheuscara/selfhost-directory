@@ -11,9 +11,35 @@ export function getStaticPaths() {
 const { slug } = Astro.params;
 const tool = getTool(slug!)!;
 const related = relatedTools(tool);
+const plainDesc = tool.description.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'SoftwareApplication',
+      name: tool.name,
+      description: plainDesc,
+      applicationCategory: tool.tags[0],
+      operatingSystem: tool.platforms.join(', ') || 'Self-hosted',
+      url: tool.website_url,
+      ...(tool.source_code_url && { softwareHelp: tool.source_code_url }),
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Início', item: new URL('/', Astro.site).href },
+        ...(tool.tags[0] ? [{ '@type': 'ListItem', position: 2, name: tool.tags[0], item: new URL(`/category/${slugify(tool.tags[0])}`, Astro.site).href }] : []),
+        { '@type': 'ListItem', position: 3, name: tool.name },
+      ],
+    },
+  ],
+};
 ---
 <Base title={`${tool.name} — alternativa self-hosted | SelfHost Directory`}
-      description={tool.description.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').slice(0, 155)}>
+      description={plainDesc.slice(0, 155)}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
   <nav class="text-xs text-muted mb-4">
     <a href="/" class="hover:text-ink">Início</a> /
     {tool.tags[0] && <a href={`/category/${slugify(tool.tags[0])}`} class="hover:text-ink">{tool.tags[0]}</a>} /

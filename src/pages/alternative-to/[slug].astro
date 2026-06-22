@@ -11,11 +11,69 @@ export function getStaticPaths() {
 const { slug } = Astro.params;
 const alt = getAlternative(slug!)!;
 const tools = toolsForAlternative(alt);
+const top = tools[0];
+const names = tools.slice(0, 3).map((t) => t.name).join(', ');
+
+const faq = [
+  {
+    q: `Existe alternativa self-hosted gratuita ao ${alt.proprietary}?`,
+    a: tools.length
+      ? `Sim. Reunimos ${tools.length} alternativas self-hosted e open source ao ${alt.proprietary} — entre elas ${names}. Todas você roda no seu próprio servidor.`
+      : `Em breve listaremos alternativas self-hosted ao ${alt.proprietary}.`,
+  },
+  {
+    q: `Qual a melhor alternativa open source ao ${alt.proprietary}?`,
+    a: top
+      ? `${top.name} é uma das mais populares (${top.stargazers_count.toLocaleString('pt-BR')} estrelas no GitHub). A "melhor" depende do seu caso — compare as opções abaixo.`
+      : `Estamos avaliando as melhores opções.`,
+  },
+  {
+    q: `Preciso de um servidor para substituir o ${alt.proprietary}?`,
+    a: `Sim. Você pode usar um servidor em casa (homelab) ou um VPS barato (a partir de ~€4/mês). Veja sugestões de hospedagem nesta página.`,
+  },
+];
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Início', item: new URL('/', Astro.site).href },
+        { '@type': 'ListItem', position: 2, name: 'Alternativas', item: new URL('/alternatives', Astro.site).href },
+        { '@type': 'ListItem', position: 3, name: `Alternativa a ${alt.proprietary}` },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+    {
+      '@type': 'ItemList',
+      itemListElement: tools.map((t, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: t.name,
+        url: new URL(`/tools/${t.slug}`, Astro.site).href,
+      })),
+    },
+  ],
+};
 ---
-<Base title={`Alternativas self-hosted ao ${alt.proprietary} (open source)`}
-      description={`As melhores alternativas self-hosted e open source ao ${alt.proprietary}. ${alt.blurb}`}>
+<Base title={`Alternativas self-hosted ao ${alt.proprietary} (open source, 2026)`}
+      description={`As ${tools.length} melhores alternativas self-hosted e open source ao ${alt.proprietary}. ${alt.blurb}`}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
+
+  <nav class="text-xs text-muted mb-4"><a href="/alternatives" class="hover:text-ink">Alternativas</a> / <span class="text-ink">{alt.proprietary}</span></nav>
   <h1 class="text-3xl font-bold text-ink">Alternativas self-hosted ao {alt.proprietary}</h1>
-  <p class="text-muted mt-3 max-w-3xl">{alt.blurb}</p>
+  <p class="text-muted mt-3 max-w-3xl">
+    {alt.blurb} Abaixo estão {tools.length} opções open source que você hospeda no seu próprio servidor —
+    sem mensalidade por usuário e com total controle dos seus dados.
+  </p>
 
   <div class="grid lg:grid-cols-3 gap-8 mt-8">
     <div class="lg:col-span-2">
@@ -23,6 +81,18 @@ const tools = toolsForAlternative(alt);
         {tools.map((t) => <ToolCard tool={t} />)}
       </div>
       {tools.length === 0 && <p class="text-muted">Em breve.</p>}
+
+      <section class="mt-12">
+        <h2 class="text-xl font-semibold text-ink mb-4">Perguntas frequentes</h2>
+        <div class="space-y-4">
+          {faq.map((f) => (
+            <details class="rounded-lg border border-line bg-panel p-4">
+              <summary class="font-medium text-ink cursor-pointer">{f.q}</summary>
+              <p class="text-sm text-muted mt-2">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
     </div>
     <div class="lg:col-span-1">
       <HostingBox />
