@@ -9,6 +9,10 @@ const SITE = process.env.SITE_URL || 'https://selfhost-directory.pages.dev';
 
 export default defineConfig({
   site: SITE,
-  integrations: [pagefind(), sitemap()],
+  integrations: [
+    pagefind(),
+    // não listar páginas utilitárias/noindex no sitemap (ex.: busca interna)
+    sitemap({ filter: (page) => !/\/buscar\/?$/.test(page) }),
+  ],
   vite: { plugins: [tailwindcss()] },
 });

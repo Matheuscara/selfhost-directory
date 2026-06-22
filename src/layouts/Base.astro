@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-const { title, description } = Astro.props as { title: string; description?: string };
+const { title, description, noindex } = Astro.props as { title: string; description?: string; noindex?: boolean };
 const desc = description ?? 'Diretório de alternativas self-hosted e open source. Encontre o app certo pra rodar no seu servidor.';
 const SITE_NAME = 'SelfHost Directory';
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -12,6 +12,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={desc} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={desc} />
