@@ -15,7 +15,8 @@ listings** pagos. Mantido pelos agentes do paperclip (refresh de dados + novas p
 | `/tools/<slug>` | 1.327 | "<app> self-hosted" |
 | `/category/<slug>` | ~83 | "<categoria> self-hosted open source" |
 | `/alternative-to/<slug>` | 98 (cresce) | **"alternativa self-hosted ao <serviço pago>"** ← o ouro |
-| `/`, `/categories`, `/alternatives` | índices | navegação |
+| `/vs/<slug>` | 14 (cresce) | **"<X> vs <Y>"** (comparação, alta intenção) |
+| `/`, `/categories`, `/alternatives`, `/comparacoes`, `/buscar`, `/anuncie`, `/sobre` | índices/funil | navegação + busca + venda |
 
 ## Dados
 `data-src/` é um clone de [awesome-selfhosted-data](https://github.com/awesome-selfhosted/awesome-selfhosted-data)
@@ -24,6 +25,8 @@ Refresh: `npm run data:update` (os agentes rodam isso e re-buildam).
 
 Curadoria nossa (versionada):
 - `data/alternatives.json` — mapa "serviço pago → tags self-hosted" (escalável por agente).
+- `data/descriptions.json` — descrições únicas pt-BR por slug (anti conteúdo duplicado; agente expande).
+- `data/comparisons.json` — comparações "X vs Y" (slugs do dataset).
 - `data/affiliates.json` — provedores de hospedagem + seus IDs de afiliado (troque `YOUR_ID`).
 - `data/featured.json` — listings pagos (vazio até vender o 1º slot).
 
@@ -44,10 +47,10 @@ Routine semanal: `data:update` → expandir `alternatives.json` (mais serviços 
 gerar conteúdo editorial por página → rebuild/commit → Cloudflare auto-deploy.
 
 ## Status (22-06-2026)
-✅ MVP buildando: **1.515 páginas**. 98 alternativas + 83 categorias (todas com intro + FAQ + JSON-LD).
-**Busca** no site (Pagefind, índice das 1.515 páginas). **Página de anúncios** (`/anuncie`, funil de
-featured listings) + Sobre + 404. SEO: JSON-LD (SoftwareApplication/FAQPage/Breadcrumb/ItemList),
-canonical, Open Graph, robots. Auto-fetch de dados no build. Scaffold de manutenção por agente.
+✅ MVP buildando: **1.530 páginas**. 98 alternativas + 83 categorias + 14 comparações (todas com FAQ + JSON-LD).
+**38 descrições únicas** pt-BR nos apps mais populares (anti-duplicado). **Busca** (Pagefind).
+**Funil** `/anuncie` (featured listings) + Sobre + 404. SEO: JSON-LD, canonical, Open Graph, robots.
+Auto-fetch de dados no build. Manutenção por agente: `expand-alternatives.sh` + `write-descriptions.sh`.
 Pushado em github.com/Matheuscara/selfhost-directory.
 
 ⏳ Falta (do Matheus, em casa): marca/domínio, deploy Cloudflare Pages, IDs de afiliado, deploy hook + routine paperclip.
