@@ -36,8 +36,8 @@ const jsonld = {
   ],
 };
 ---
-<Base title={`${cmp.title}: qual a melhor alternativa self-hosted? (2026)`}
-      description={`${cmp.title} comparados: licença, popularidade e recursos. ${cmp.intro}`}>
+<Base title={`${cmp.title} — comparação self-hosted`}
+      description={`${cmp.title} comparados: licença, popularidade e recursos. ${cmp.intro}`.slice(0, 160)}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
 
   <nav class="text-xs text-muted mb-4"><a href="/comparacoes" class="hover:text-ink">Comparações</a> / <span class="text-ink">{cmp.title}</span></nav>

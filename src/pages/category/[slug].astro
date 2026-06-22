@@ -52,8 +52,8 @@ const jsonld = {
   ],
 };
 ---
-<Base title={`${cat.name} self-hosted — ${tools.length} melhores opções open source (2026)`}
-      description={`As ${tools.length} melhores ferramentas self-hosted de ${cat.name}. Alternativas open source que você roda no seu servidor, sem mensalidade.`}>
+<Base title={`${cat.name} self-hosted — open source`}
+      description={`As ${tools.length} melhores ferramentas self-hosted de ${cat.name}. Alternativas open source que você roda no seu servidor, sem mensalidade.`.slice(0, 160)}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
 
   <nav class="text-xs text-muted mb-4"><a href="/categories" class="hover:text-ink">Categorias</a> / <span class="text-ink">{cat.name}</span></nav>

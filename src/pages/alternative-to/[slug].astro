@@ -64,8 +64,8 @@ const jsonld = {
   ],
 };
 ---
-<Base title={`Alternativas self-hosted ao ${alt.proprietary} (open source, 2026)`}
-      description={`As ${tools.length} melhores alternativas self-hosted e open source ao ${alt.proprietary}. ${alt.blurb}`}>
+<Base title={`Alternativas self-hosted ao ${alt.proprietary}`}
+      description={`As ${tools.length} melhores alternativas self-hosted e open source ao ${alt.proprietary}. ${alt.blurb}`.slice(0, 160)}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
 
   <nav class="text-xs text-muted mb-4"><a href="/alternatives" class="hover:text-ink">Alternativas</a> / <span class="text-ink">{alt.proprietary}</span></nav>

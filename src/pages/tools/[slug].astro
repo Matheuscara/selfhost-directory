@@ -12,7 +12,10 @@ const { slug } = Astro.params;
 const tool = getTool(slug!)!;
 const related = relatedTools(tool);
 const plainDesc = tool.description.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
-const metaDesc = (tool.editorial || plainDesc).slice(0, 155);
+const baseDesc = tool.editorial || plainDesc;
+const metaDesc = (baseDesc.length < 110
+  ? `${baseDesc} ${tool.name} é uma alternativa self-hosted open source.`
+  : baseDesc).slice(0, 160);
 
 const jsonld = {
   '@context': 'https://schema.org',
@@ -38,7 +41,7 @@ const jsonld = {
   ],
 };
 ---
-<Base title={`${tool.name} — alternativa self-hosted | SelfHost Directory`}
+<Base title={`${tool.name} — alternativa self-hosted open source`}
       description={metaDesc}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
   <nav class="text-xs text-muted mb-4">
