@@ -1,0 +1,96 @@
+---
+import Base from '../../layouts/Base.astro';
+import HostingBox from '../../components/HostingBox.astro';
+import { getComparisons, getComparison, slugify } from '../../lib/data';
+
+export function getStaticPaths() {
+  return getComparisons().map((c) => ({ params: { slug: c.slug } }));
+}
+
+const { slug } = Astro.params;
+const cmp = getComparison(slug!)!;
+const names = cmp.tools.map((t) => t.name);
+
+const faq = [
+  {
+    q: `Qual a melhor alternativa self-hosted entre ${names.join(', ')}?`,
+    a: `Depende do seu caso. ${names[0]} é a mais popular (${cmp.tools[0].stargazers_count.toLocaleString('pt-BR')} estrelas). Compare licença, plataforma e recursos na tabela acima.`,
+  },
+  {
+    q: `${names.join(', ')} são gratuitos?`,
+    a: `Sim, todos são open source e self-hosted — você roda no seu próprio servidor sem mensalidade.`,
+  },
+];
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+    },
+    {
+      '@type': 'ItemList',
+      itemListElement: cmp.tools.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, url: new URL(`/tools/${t.slug}`, Astro.site).href })),
+    },
+  ],
+};
+---
+<Base title={`${cmp.title}: qual a melhor alternativa self-hosted? (2026)`}
+      description={`${cmp.title} comparados: licença, popularidade e recursos. ${cmp.intro}`}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
+
+  <nav class="text-xs text-muted mb-4"><a href="/comparacoes" class="hover:text-ink">Comparações</a> / <span class="text-ink">{cmp.title}</span></nav>
+  <h1 class="text-3xl font-bold text-ink">{cmp.title}</h1>
+  <p class="text-muted mt-3 max-w-3xl">{cmp.intro}</p>
+
+  <div class="overflow-x-auto mt-8">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="text-left text-muted border-b border-line">
+          <th class="py-2 pr-4 font-medium">Ferramenta</th>
+          <th class="py-2 pr-4 font-medium">★ GitHub</th>
+          <th class="py-2 pr-4 font-medium">Licença</th>
+          <th class="py-2 pr-4 font-medium">Plataforma</th>
+        </tr>
+      </thead>
+      <tbody>
+        {cmp.tools.map((t) => (
+          <tr class="border-b border-line">
+            <td class="py-3 pr-4"><a href={`/tools/${t.slug}`} class="text-accent hover:underline font-medium">{t.name}</a></td>
+            <td class="py-3 pr-4 text-ink">{t.stargazers_count.toLocaleString('pt-BR')}</td>
+            <td class="py-3 pr-4 text-muted">{t.licenses.join(', ') || '—'}</td>
+            <td class="py-3 pr-4 text-muted">{t.platforms.slice(0, 3).join(', ') || '—'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-8 mt-10">
+    <div class="lg:col-span-2 space-y-6">
+      {cmp.tools.map((t) => (
+        <div class="rounded-xl border border-line bg-panel p-5">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-ink"><a href={`/tools/${t.slug}`} class="hover:underline">{t.name}</a></h2>
+            <a href={`/category/${slugify(t.tags[0] || '')}`} class="text-xs text-muted hover:text-ink">{t.tags[0]}</a>
+          </div>
+          <p class="text-sm text-muted mt-2">{t.editorial || t.description.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')}</p>
+        </div>
+      ))}
+
+      <section class="mt-4">
+        <h2 class="text-xl font-semibold text-ink mb-4">Perguntas frequentes</h2>
+        <div class="space-y-4">
+          {faq.map((f) => (
+            <details class="rounded-lg border border-line bg-panel p-4">
+              <summary class="font-medium text-ink cursor-pointer">{f.q}</summary>
+              <p class="text-sm text-muted mt-2">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
+    <div class="lg:col-span-1"><HostingBox /></div>
+  </div>
+</Base>

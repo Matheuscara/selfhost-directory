@@ -14,6 +14,7 @@ export type Software = {
   website_url?: string;
   description: string;
   descriptionHtml: string;
+  editorial?: string;
   licenses: string[];
   platforms: string[];
   tags: string[];
@@ -78,19 +79,30 @@ function readYmlDir<T>(dir: string): { file: string; data: T }[] {
     }));
 }
 
+let _editorials: Record<string, string> | null = null;
+function getEditorials(): Record<string, string> {
+  if (_editorials) return _editorials;
+  const file = path.join(ROOT, 'data', 'descriptions.json');
+  _editorials = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : {};
+  return _editorials;
+}
+
 let _software: Software[] | null = null;
 export function getSoftware(): Software[] {
   if (_software) return _software;
   const raw = readYmlDir<any>('software');
+  const editorials = getEditorials();
   _software = raw
     .map(({ file, data }) => {
       const desc: string = (data.description || '').trim();
+      const slug = file.replace(/\.yml$/, '');
       return {
-        slug: file.replace(/\.yml$/, ''),
+        slug,
         name: data.name,
         website_url: data.website_url,
         description: desc,
         descriptionHtml: mdInlineToHtml(desc),
+        editorial: editorials[slug],
         licenses: data.licenses || [],
         platforms: data.platforms || [],
         tags: data.tags || [],
@@ -168,6 +180,22 @@ export function toolsForAlternative(a: Alternative, limit = 12): Software[] {
   return getSoftware()
     .filter((s) => s.tags.some((t) => a.tags.includes(t)))
     .slice(0, limit);
+}
+
+// ---- Comparações ("X vs Y") ----
+export type Comparison = { slug: string; title: string; intro: string; tools: Software[] };
+export function getComparisons(): Comparison[] {
+  const file = path.join(ROOT, 'data', 'comparisons.json');
+  if (!fs.existsSync(file)) return [];
+  const raw = JSON.parse(fs.readFileSync(file, 'utf8')) as {
+    slug: string; title: string; intro: string; tools: string[];
+  }[];
+  return raw
+    .map((c) => ({ ...c, tools: c.tools.map((s) => getTool(s)).filter((t): t is Software => !!t) }))
+    .filter((c) => c.tools.length >= 2);
+}
+export function getComparison(slug: string): Comparison | undefined {
+  return getComparisons().find((c) => c.slug === slug);
 }
 
 // ---- Featured (listings pagos) ----

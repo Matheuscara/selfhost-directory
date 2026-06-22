@@ -23,19 +23,36 @@ Ele:
 3. valida o JSON (`node -e`/`jq`);
 4. commita e dá push → Cloudflare rebuilda.
 
+## 3. Descrições únicas (agente Claude) — combate conteúdo duplicado
+A descrição padrão de cada app vem do dataset e é **idêntica à de centenas de outros sites** —
+o maior risco de SEO do projeto. O agente reescreve, em lote, descrições originais em pt-BR
+(`data/descriptions.json`), começando pelos apps mais populares sem descrição.
+
+Helper: `scripts/write-descriptions.sh N` (default 10). Pega os N apps mais populares que ainda
+não têm editorial, pede ao `claude` textos originais, valida o JSON e dá push.
+
+Routine sugerida (2×/semana): `bash /opt/selfhost-directory/scripts/write-descriptions.sh 10`
+→ ~20 descrições/semana → cobre os ~500 apps mais buscados em ~6 meses.
+
 ### Wiring no paperclip (fazer DEPOIS do deploy)
 Pré-requisitos:
 - **Deploy key** do repo `Matheuscara/selfhost-directory` na VM paperclip (push via SSH).
 - Repo clonado em `/opt/selfhost-directory` na paperclip.
 - `claude` CLI autenticado na VM (já está).
 
-Routine sugerida (1×/semana):
+Routines sugeridas:
 ```
+# 1) novas páginas "alternativa a X"
 nome: selfhost-directory-expand
 agenda: dom 04:00
 comando: bash /opt/selfhost-directory/scripts/expand-alternatives.sh 5
+
+# 2) descrições únicas (anti-duplicado)
+nome: selfhost-directory-descriptions
+agenda: qua,sab 04:30
+comando: bash /opt/selfhost-directory/scripts/write-descriptions.sh 10
 ```
-Adiciona ~5 páginas-money por semana (~260/ano) sem você tocar em nada.
+Resultado: ~5 páginas-money + ~20 descrições originais por semana, sem você tocar em nada.
 
 > ⚠️ Guardrail: o agente só edita `data/alternatives.json`. Tags devem existir no dataset
 > (senão a página fica vazia). O script valida e aborta o push se o JSON quebrar.

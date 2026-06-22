@@ -12,6 +12,7 @@ const { slug } = Astro.params;
 const tool = getTool(slug!)!;
 const related = relatedTools(tool);
 const plainDesc = tool.description.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+const metaDesc = (tool.editorial || plainDesc).slice(0, 155);
 
 const jsonld = {
   '@context': 'https://schema.org',
@@ -38,7 +39,7 @@ const jsonld = {
 };
 ---
 <Base title={`${tool.name} — alternativa self-hosted | SelfHost Directory`}
-      description={plainDesc.slice(0, 155)}>
+      description={metaDesc}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
   <nav class="text-xs text-muted mb-4">
     <a href="/" class="hover:text-ink">Início</a> /
@@ -49,7 +50,12 @@ const jsonld = {
   <div class="grid lg:grid-cols-3 gap-8">
     <div class="lg:col-span-2">
       <h1 class="text-3xl font-bold text-ink">{tool.name}</h1>
-      <p class="text-muted mt-3 prose" set:html={tool.descriptionHtml}></p>
+      {tool.editorial
+        ? <>
+            <p class="text-ink/90 mt-3 leading-relaxed">{tool.editorial}</p>
+            <p class="text-sm text-muted mt-3 prose">Resumo do projeto: <span set:html={tool.descriptionHtml}></span></p>
+          </>
+        : <p class="text-muted mt-3 prose" set:html={tool.descriptionHtml}></p>}
 
       <div class="flex flex-wrap gap-2 mt-5">
         {tool.website_url && <a class="px-3 py-1.5 rounded-lg bg-accent text-bg text-sm font-medium" href={tool.website_url} target="_blank" rel="noopener">Site oficial ↗</a>}

@@ -2,11 +2,12 @@
 import Base from '../layouts/Base.astro';
 import ToolCard from '../components/ToolCard.astro';
 import FeaturedRow from '../components/FeaturedRow.astro';
-import { getSoftware, getCategories, getAlternatives } from '../lib/data';
+import { getSoftware, getCategories, getAlternatives, getComparisons } from '../lib/data';
 
 const software = getSoftware();
 const categories = getCategories();
 const alternatives = getAlternatives();
+const comparisons = getComparisons().slice(0, 8);
 const popular = software.slice(0, 12);
 const topCats = categories.slice(0, 12);
 ---
@@ -49,6 +50,18 @@ const topCats = categories.slice(0, 12);
       ))}
     </div>
     <a href="/categories" class="inline-block mt-3 text-sm text-accent hover:underline">Ver todas as {categories.length} categorias →</a>
+  </section>
+
+  <section class="mb-10">
+    <h2 class="text-lg font-semibold text-ink mb-3">Comparações populares</h2>
+    <div class="flex flex-wrap gap-2">
+      {comparisons.map((c) => (
+        <a href={`/vs/${c.slug}`}
+           class="text-sm px-3 py-1.5 rounded-full border border-line text-muted hover:text-ink hover:border-accent transition">
+          {c.title}
+        </a>
+      ))}
+    </div>
   </section>
 
   <section>
