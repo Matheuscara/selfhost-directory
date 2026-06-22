@@ -44,6 +44,10 @@ Routine semanal: `data:update` → expandir `alternatives.json` (mais serviços 
 gerar conteúdo editorial por página → rebuild/commit → Cloudflare auto-deploy.
 
 ## Status (22-06-2026)
-✅ MVP buildando: **1.511 páginas** (98 alternativas), SEO (JSON-LD/FAQ/canonical/OG/robots),
-auto-fetch de dados no build, scaffold de manutenção. Pushado em github.com/Matheuscara/selfhost-directory.
+✅ MVP buildando: **1.515 páginas**. 98 alternativas + 83 categorias (todas com intro + FAQ + JSON-LD).
+**Busca** no site (Pagefind, índice das 1.515 páginas). **Página de anúncios** (`/anuncie`, funil de
+featured listings) + Sobre + 404. SEO: JSON-LD (SoftwareApplication/FAQPage/Breadcrumb/ItemList),
+canonical, Open Graph, robots. Auto-fetch de dados no build. Scaffold de manutenção por agente.
+Pushado em github.com/Matheuscara/selfhost-directory.
+
 ⏳ Falta (do Matheus, em casa): marca/domínio, deploy Cloudflare Pages, IDs de afiliado, deploy hook + routine paperclip.
