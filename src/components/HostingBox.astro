@@ -1,0 +1,26 @@
+---
+import affiliates from '../../data/affiliates.json';
+const { toolName } = Astro.props as { toolName?: string };
+const providers = affiliates.providers;
+---
+<aside class="rounded-xl border border-line bg-panel-2 p-5">
+  <h2 class="font-semibold text-ink">
+    {toolName ? `Onde hospedar ${toolName}` : 'Onde hospedar'}
+  </h2>
+  <p class="text-sm text-muted mt-1">
+    Não quer rodar em casa? Esses provedores sobem em minutos.
+  </p>
+  <ul class="mt-4 space-y-3">
+    {providers.map((p) => (
+      <li class="flex items-center justify-between gap-3">
+        <div>
+          <a href={p.url} target="_blank" rel="sponsored noopener"
+             class="font-medium text-accent hover:underline">{p.name}</a>
+          <span class="block text-xs text-muted">{p.pitch}</span>
+        </div>
+        <span class="text-xs text-muted whitespace-nowrap">{p.price}</span>
+      </li>
+    ))}
+  </ul>
+  <p class="text-[11px] text-muted mt-4">Links de afiliado — apoiam o site sem custo extra pra você.</p>
+</aside>

@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { getAlternatives } from '../lib/data';
+const alternatives = getAlternatives();
+---
+<Base title="Alternativas self-hosted a serviços pagos">
+  <h1 class="text-3xl font-bold text-ink">Trocar um serviço pago</h1>
+  <p class="text-muted mt-2">Escolha o serviço que você quer substituir por uma opção self-hosted.</p>
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-6">
+    {alternatives.map((a) => (
+      <a href={`/alternative-to/${a.slug}`}
+         class="rounded-lg border border-line bg-panel hover:bg-panel-2 p-4 transition">
+        <span class="text-ink font-medium">Alternativa a {a.proprietary}</span>
+        <span class="block text-sm text-muted mt-1">{a.blurb}</span>
+      </a>
+    ))}
+  </div>
+</Base>

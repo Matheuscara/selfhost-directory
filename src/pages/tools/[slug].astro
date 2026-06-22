@@ -1,0 +1,61 @@
+---
+import Base from '../../layouts/Base.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import HostingBox from '../../components/HostingBox.astro';
+import { getSoftware, getTool, relatedTools, slugify } from '../../lib/data';
+
+export function getStaticPaths() {
+  return getSoftware().map((s) => ({ params: { slug: s.slug } }));
+}
+
+const { slug } = Astro.params;
+const tool = getTool(slug!)!;
+const related = relatedTools(tool);
+---
+<Base title={`${tool.name} — alternativa self-hosted | SelfHost Directory`}
+      description={tool.description.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').slice(0, 155)}>
+  <nav class="text-xs text-muted mb-4">
+    <a href="/" class="hover:text-ink">Início</a> /
+    {tool.tags[0] && <a href={`/category/${slugify(tool.tags[0])}`} class="hover:text-ink">{tool.tags[0]}</a>} /
+    <span class="text-ink">{tool.name}</span>
+  </nav>
+
+  <div class="grid lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2">
+      <h1 class="text-3xl font-bold text-ink">{tool.name}</h1>
+      <p class="text-muted mt-3 prose" set:html={tool.descriptionHtml}></p>
+
+      <div class="flex flex-wrap gap-2 mt-5">
+        {tool.website_url && <a class="px-3 py-1.5 rounded-lg bg-accent text-bg text-sm font-medium" href={tool.website_url} target="_blank" rel="noopener">Site oficial ↗</a>}
+        {tool.source_code_url && <a class="px-3 py-1.5 rounded-lg border border-line text-sm" href={tool.source_code_url} target="_blank" rel="noopener">Código-fonte</a>}
+        {tool.demo_url && <a class="px-3 py-1.5 rounded-lg border border-line text-sm" href={tool.demo_url} target="_blank" rel="noopener">Demo</a>}
+      </div>
+
+      <dl class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 text-sm">
+        <div><dt class="text-muted">Estrelas</dt><dd class="text-ink">{tool.stargazers_count.toLocaleString('pt-BR')}</dd></div>
+        <div><dt class="text-muted">Licença</dt><dd class="text-ink">{tool.licenses.join(', ') || '—'}</dd></div>
+        <div><dt class="text-muted">Plataforma</dt><dd class="text-ink">{tool.platforms.join(', ') || '—'}</dd></div>
+        <div><dt class="text-muted">Versão</dt><dd class="text-ink">{tool.current_release?.tag || '—'}</dd></div>
+      </dl>
+
+      <div class="flex flex-wrap gap-2 mt-6">
+        {tool.tags.map((t) => (
+          <a href={`/category/${slugify(t)}`} class="text-xs px-2 py-1 rounded-full border border-line text-muted hover:text-ink">{t}</a>
+        ))}
+      </div>
+    </div>
+
+    <div class="lg:col-span-1">
+      <HostingBox toolName={tool.name} />
+    </div>
+  </div>
+
+  {related.length > 0 && (
+    <section class="mt-12">
+      <h2 class="text-lg font-semibold text-ink mb-3">Alternativas parecidas</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {related.map((t) => <ToolCard tool={t} />)}
+      </div>
+    </section>
+  )}
+</Base>

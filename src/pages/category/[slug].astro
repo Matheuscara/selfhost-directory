@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { getCategories, getCategory, softwareByTag } from '../../lib/data';
+
+export function getStaticPaths() {
+  return getCategories().map((c) => ({ params: { slug: c.slug } }));
+}
+
+const { slug } = Astro.params;
+const cat = getCategory(slug!)!;
+const tools = softwareByTag(cat.name);
+---
+<Base title={`${cat.name} self-hosted — ${tools.length} opções open source`}
+      description={`As melhores ferramentas self-hosted de ${cat.name}. ${tools.length} alternativas open source que você roda no seu servidor.`}>
+  <nav class="text-xs text-muted mb-4"><a href="/categories" class="hover:text-ink">Categorias</a> / <span class="text-ink">{cat.name}</span></nav>
+  <h1 class="text-3xl font-bold text-ink">{cat.name}</h1>
+  {cat.description && <p class="text-muted mt-3 max-w-3xl prose" set:html={cat.descriptionHtml}></p>}
+  <p class="text-sm text-muted mt-2">{tools.length} ferramentas self-hosted</p>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+    {tools.map((t) => <ToolCard tool={t} />)}
+  </div>
+</Base>

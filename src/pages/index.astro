@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import ToolCard from '../components/ToolCard.astro';
+import FeaturedRow from '../components/FeaturedRow.astro';
+import { getSoftware, getCategories, getAlternatives } from '../lib/data';
+
+const software = getSoftware();
+const categories = getCategories();
+const alternatives = getAlternatives();
+const popular = software.slice(0, 12);
+const topCats = categories.slice(0, 12);
+---
+<Base title="SelfHost Directory — alternativas self-hosted e open source">
+  <section class="text-center py-10">
+    <h1 class="text-4xl font-bold text-ink">Pare de alugar. Rode você mesmo.</h1>
+    <p class="text-muted mt-3 max-w-2xl mx-auto">
+      {software.length.toLocaleString('pt-BR')} apps open source pra substituir serviços pagos —
+      com dono dos seus dados. Encontre por categoria ou pelo serviço que você quer trocar.
+    </p>
+  </section>
+
+  <FeaturedRow />
+
+  <section class="mb-10">
+    <h2 class="text-lg font-semibold text-ink mb-3">Trocar um serviço pago</h2>
+    <div class="flex flex-wrap gap-2">
+      {alternatives.map((a) => (
+        <a href={`/alternative-to/${a.slug}`}
+           class="text-sm px-3 py-1.5 rounded-full border border-line text-muted hover:text-ink hover:border-accent transition">
+          alternativa a {a.proprietary}
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="mb-10">
+    <h2 class="text-lg font-semibold text-ink mb-3">Categorias populares</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      {topCats.map((c) => (
+        <a href={`/category/${c.slug}`}
+           class="flex items-center justify-between rounded-lg border border-line bg-panel hover:bg-panel-2 p-3 transition">
+          <span class="text-sm text-ink">{c.name}</span>
+          <span class="text-xs text-muted">{c.count}</span>
+        </a>
+      ))}
+    </div>
+    <a href="/categories" class="inline-block mt-3 text-sm text-accent hover:underline">Ver todas as {categories.length} categorias →</a>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold text-ink mb-3">Mais populares</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {popular.map((t) => <ToolCard tool={t} />)}
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,22 @@
+{
+  "name": "selfhost-directory",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "data:update": "git -C data-src pull --ff-only"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.8.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.7",
+    "@types/js-yaml": "^4.0.9",
+    "js-yaml": "^4.1.0",
+    "tailwindcss": "^4.1.7"
+  }
+}

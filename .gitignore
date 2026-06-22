@@ -1,0 +1,12 @@
+# build
+dist/
+.astro/
+node_modules/
+
+# dados externos (clonados em build; agentes dão refresh com `npm run data:update`)
+data-src/
+
+# env
+.env
+.env.*
+!.env.example

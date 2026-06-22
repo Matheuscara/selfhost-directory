@@ -1,0 +1,26 @@
+{
+  "_comment": "Onde hospedar — links de afiliado. Troque YOUR_ID pelo seu ID de cada programa. Não é secret, mas mantenha só aqui.",
+  "providers": [
+    {
+      "name": "Hetzner Cloud",
+      "pitch": "VPS barato e potente (EU/US) — ideal pra rodar você mesmo.",
+      "price": "a partir de ~€4/mês",
+      "url": "https://www.hetzner.com/cloud?ref=YOUR_ID",
+      "tag": "VPS"
+    },
+    {
+      "name": "Hostinger VPS",
+      "pitch": "VPS com painel simples e preço agressivo.",
+      "price": "a partir de ~$5/mês",
+      "url": "https://www.hostinger.com/vps-hosting?REFERRALCODE=YOUR_ID",
+      "tag": "VPS"
+    },
+    {
+      "name": "Cloudways",
+      "pitch": "Managed cloud — eles cuidam do servidor, você só instala o app.",
+      "price": "a partir de ~$11/mês",
+      "url": "https://www.cloudways.com/en/?id=YOUR_ID",
+      "tag": "Managed"
+    }
+  ]
+}

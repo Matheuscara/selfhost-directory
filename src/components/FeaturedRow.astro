@@ -1,0 +1,24 @@
+---
+import { getFeatured } from '../lib/data';
+const featured = getFeatured();
+---
+{featured.length > 0 && (
+  <section class="mb-10">
+    <div class="flex items-center gap-2 mb-3">
+      <h2 class="text-sm font-semibold text-muted uppercase tracking-wide">Em destaque</h2>
+      <span class="text-[11px] text-muted">patrocinado</span>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {featured.map((f) => (
+        <a href={f.url} target="_blank" rel="sponsored noopener"
+           class="block rounded-xl border border-accent/40 bg-panel p-4 hover:bg-panel-2 transition">
+          <div class="flex items-center justify-between">
+            <h3 class="font-semibold text-ink">{f.name}</h3>
+            {f.badge && <span class="text-[11px] px-2 py-0.5 rounded-full bg-accent/20 text-accent">{f.badge}</span>}
+          </div>
+          <p class="text-sm text-muted mt-2">{f.blurb}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

@@ -1,0 +1,40 @@
+---
+import '../styles/global.css';
+const { title, description } = Astro.props as { title: string; description?: string };
+const desc = description ?? 'Diretório de alternativas self-hosted e open source. Encontre o app certo pra rodar no seu servidor.';
+const SITE_NAME = 'SelfHost Directory';
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={desc} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content="website" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="border-b border-line bg-panel/70 backdrop-blur sticky top-0 z-10">
+      <nav class="max-w-6xl mx-auto px-4 h-14 flex items-center gap-6 text-sm">
+        <a href="/" class="font-bold text-ink">⚓ {SITE_NAME}</a>
+        <a href="/categories" class="text-muted hover:text-ink">Categorias</a>
+        <a href="/alternatives" class="text-muted hover:text-ink">Alternativas</a>
+        <a href="https://github.com/awesome-selfhosted/awesome-selfhosted-data" target="_blank" rel="noopener" class="text-muted hover:text-ink ml-auto">Dados ↗</a>
+      </nav>
+    </header>
+
+    <main class="flex-1 w-full max-w-6xl mx-auto px-4 py-8">
+      <slot />
+    </main>
+
+    <footer class="border-t border-line mt-12">
+      <div class="max-w-6xl mx-auto px-4 py-8 text-xs text-muted space-y-2">
+        <p>{SITE_NAME} — dados de <a class="underline" href="https://github.com/awesome-selfhosted/awesome-selfhosted-data" target="_blank" rel="noopener">awesome-selfhosted</a> (CC-BY-SA 3.0).</p>
+        <p>Alguns links de hospedagem são de afiliado. Isso não muda o preço pra você e ajuda a manter o site.</p>
+      </div>
+    </footer>
+  </body>
+</html>

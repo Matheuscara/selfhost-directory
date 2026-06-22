@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import HostingBox from '../../components/HostingBox.astro';
+import { getAlternatives, getAlternative, toolsForAlternative } from '../../lib/data';
+
+export function getStaticPaths() {
+  return getAlternatives().map((a) => ({ params: { slug: a.slug } }));
+}
+
+const { slug } = Astro.params;
+const alt = getAlternative(slug!)!;
+const tools = toolsForAlternative(alt);
+---
+<Base title={`Alternativas self-hosted ao ${alt.proprietary} (open source)`}
+      description={`As melhores alternativas self-hosted e open source ao ${alt.proprietary}. ${alt.blurb}`}>
+  <h1 class="text-3xl font-bold text-ink">Alternativas self-hosted ao {alt.proprietary}</h1>
+  <p class="text-muted mt-3 max-w-3xl">{alt.blurb}</p>
+
+  <div class="grid lg:grid-cols-3 gap-8 mt-8">
+    <div class="lg:col-span-2">
+      <div class="grid sm:grid-cols-2 gap-4">
+        {tools.map((t) => <ToolCard tool={t} />)}
+      </div>
+      {tools.length === 0 && <p class="text-muted">Em breve.</p>}
+    </div>
+    <div class="lg:col-span-1">
+      <HostingBox />
+    </div>
+  </div>
+</Base>
