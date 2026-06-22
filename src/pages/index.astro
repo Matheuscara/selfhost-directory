@@ -17,6 +17,10 @@ const topCats = categories.slice(0, 12);
       {software.length.toLocaleString('pt-BR')} apps open source pra substituir serviços pagos —
       com dono dos seus dados. Encontre por categoria ou pelo serviço que você quer trocar.
     </p>
+    <div class="mt-6 flex justify-center gap-3">
+      <a href="/buscar" class="px-5 py-2.5 rounded-lg bg-accent text-bg font-medium text-sm">🔍 Buscar {software.length.toLocaleString('pt-BR')} apps</a>
+      <a href="/alternatives" class="px-5 py-2.5 rounded-lg border border-line text-sm">Trocar um serviço pago</a>
+    </div>
   </section>
 
   <FeaturedRow />

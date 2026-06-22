@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import Search from 'astro-pagefind/components/Search.astro';
+import { getSoftware } from '../lib/data';
+const total = getSoftware().length;
+---
+<Base title="Buscar entre apps self-hosted"
+      description="Procure entre mais de mil ferramentas self-hosted e open source.">
+  <h1 class="text-3xl font-bold text-ink">Buscar</h1>
+  <p class="text-muted mt-2">Procure entre {total.toLocaleString('pt-BR')} apps self-hosted por nome, categoria ou descrição.</p>
+  <div class="mt-6 max-w-2xl" data-pagefind-ignore>
+    <Search id="search" className="pagefind-ui" uiOptions={{ showImages: false, showSubResults: true, translations: { placeholder: 'Ex.: nextcloud, vpn, fotos…', zero_results: 'Nada encontrado para "[SEARCH_TERM]"' } }} />
+  </div>
+</Base>

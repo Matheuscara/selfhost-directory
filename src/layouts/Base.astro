@@ -28,16 +28,24 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
         <a href="/" class="font-bold text-ink">⚓ {SITE_NAME}</a>
         <a href="/categories" class="text-muted hover:text-ink">Categorias</a>
         <a href="/alternatives" class="text-muted hover:text-ink">Alternativas</a>
-        <a href="https://github.com/awesome-selfhosted/awesome-selfhosted-data" target="_blank" rel="noopener" class="text-muted hover:text-ink ml-auto">Dados ↗</a>
+        <a href="/buscar" class="text-muted hover:text-ink">Buscar</a>
+        <a href="/anuncie" class="text-muted hover:text-ink ml-auto">Anuncie</a>
       </nav>
     </header>
 
-    <main class="flex-1 w-full max-w-6xl mx-auto px-4 py-8">
+    <main class="flex-1 w-full max-w-6xl mx-auto px-4 py-8" data-pagefind-body>
       <slot />
     </main>
 
     <footer class="border-t border-line mt-12">
       <div class="max-w-6xl mx-auto px-4 py-8 text-xs text-muted space-y-2">
+        <p class="flex flex-wrap gap-x-4 gap-y-1">
+          <a href="/sobre" class="hover:text-ink">Sobre</a>
+          <a href="/anuncie" class="hover:text-ink">Anuncie</a>
+          <a href="/categories" class="hover:text-ink">Categorias</a>
+          <a href="/alternatives" class="hover:text-ink">Alternativas</a>
+          <a href="https://github.com/awesome-selfhosted/awesome-selfhosted-data" target="_blank" rel="noopener" class="hover:text-ink">Dados ↗</a>
+        </p>
         <p>{SITE_NAME} — dados de <a class="underline" href="https://github.com/awesome-selfhosted/awesome-selfhosted-data" target="_blank" rel="noopener">awesome-selfhosted</a> (CC-BY-SA 3.0).</p>
         <p>Alguns links de hospedagem são de afiliado. Isso não muda o preço pra você e ajuda a manter o site.</p>
       </div>

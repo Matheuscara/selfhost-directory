@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import ToolCard from '../../components/ToolCard.astro';
+import HostingBox from '../../components/HostingBox.astro';
 import { getCategories, getCategory, softwareByTag } from '../../lib/data';
 
 export function getStaticPaths() {
@@ -10,15 +11,79 @@ export function getStaticPaths() {
 const { slug } = Astro.params;
 const cat = getCategory(slug!)!;
 const tools = softwareByTag(cat.name);
----
-<Base title={`${cat.name} self-hosted — ${tools.length} opções open source`}
-      description={`As melhores ferramentas self-hosted de ${cat.name}. ${tools.length} alternativas open source que você roda no seu servidor.`}>
-  <nav class="text-xs text-muted mb-4"><a href="/categories" class="hover:text-ink">Categorias</a> / <span class="text-ink">{cat.name}</span></nav>
-  <h1 class="text-3xl font-bold text-ink">{cat.name}</h1>
-  {cat.description && <p class="text-muted mt-3 max-w-3xl prose" set:html={cat.descriptionHtml}></p>}
-  <p class="text-sm text-muted mt-2">{tools.length} ferramentas self-hosted</p>
+const names = tools.slice(0, 3).map((t) => t.name).join(', ');
 
-  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-    {tools.map((t) => <ToolCard tool={t} />)}
+const faq = [
+  {
+    q: `Quais são as melhores ferramentas self-hosted de ${cat.name}?`,
+    a: tools.length
+      ? `Entre as ${tools.length} opções, as mais populares incluem ${names}. Compare licença, plataforma e popularidade na lista abaixo.`
+      : `Estamos catalogando as opções.`,
+  },
+  {
+    q: `Existe alternativa open source gratuita para ${cat.name}?`,
+    a: `Sim — todas as ${tools.length} ferramentas desta página são open source e você roda no seu próprio servidor, sem mensalidade.`,
+  },
+  {
+    q: `Onde hospedar um app de ${cat.name}?`,
+    a: `Em um servidor em casa (homelab) ou em um VPS barato a partir de ~€4/mês. Veja as sugestões nesta página.`,
+  },
+];
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Início', item: new URL('/', Astro.site).href },
+        { '@type': 'ListItem', position: 2, name: 'Categorias', item: new URL('/categories', Astro.site).href },
+        { '@type': 'ListItem', position: 3, name: cat.name },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+    },
+    {
+      '@type': 'ItemList',
+      itemListElement: tools.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, url: new URL(`/tools/${t.slug}`, Astro.site).href })),
+    },
+  ],
+};
+---
+<Base title={`${cat.name} self-hosted — ${tools.length} melhores opções open source (2026)`}
+      description={`As ${tools.length} melhores ferramentas self-hosted de ${cat.name}. Alternativas open source que você roda no seu servidor, sem mensalidade.`}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
+
+  <nav class="text-xs text-muted mb-4"><a href="/categories" class="hover:text-ink">Categorias</a> / <span class="text-ink">{cat.name}</span></nav>
+  <h1 class="text-3xl font-bold text-ink">Melhores apps self-hosted de {cat.name}</h1>
+  {cat.description && <p class="text-muted mt-3 max-w-3xl prose" set:html={cat.descriptionHtml}></p>}
+  <p class="text-muted mt-2 max-w-3xl">
+    {tools.length} ferramentas open source de {cat.name} que você hospeda no seu próprio servidor —
+    com controle total dos dados e sem custo por usuário.
+  </p>
+
+  <div class="grid lg:grid-cols-3 gap-8 mt-6">
+    <div class="lg:col-span-2">
+      <div class="grid sm:grid-cols-2 gap-4">
+        {tools.map((t) => <ToolCard tool={t} />)}
+      </div>
+
+      <section class="mt-12">
+        <h2 class="text-xl font-semibold text-ink mb-4">Perguntas frequentes</h2>
+        <div class="space-y-4">
+          {faq.map((f) => (
+            <details class="rounded-lg border border-line bg-panel p-4">
+              <summary class="font-medium text-ink cursor-pointer">{f.q}</summary>
+              <p class="text-sm text-muted mt-2">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
+    <div class="lg:col-span-1">
+      <HostingBox />
+    </div>
   </div>
 </Base>
