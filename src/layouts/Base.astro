@@ -23,13 +23,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <slot name="head" />
   </head>
   <body class="min-h-screen flex flex-col">
-    <header class="border-b border-line bg-panel/70 backdrop-blur sticky top-0 z-10">
-      <nav class="max-w-6xl mx-auto px-4 h-14 flex items-center gap-6 text-sm">
-        <a href="/" class="font-bold text-ink">⚓ {SITE_NAME}</a>
-        <a href="/categories" class="text-muted hover:text-ink">Categorias</a>
-        <a href="/alternatives" class="text-muted hover:text-ink">Alternativas</a>
-        <a href="/buscar" class="text-muted hover:text-ink">Buscar</a>
-        <a href="/anuncie" class="text-muted hover:text-ink ml-auto">Anuncie</a>
+    <header class="border-b border-line bg-panel/80 backdrop-blur sticky top-0 z-10 shadow-sm">
+      <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center gap-5 text-sm font-medium">
+        <a href="/" class="font-bold text-ink text-base flex items-center gap-1.5">
+          <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-accent text-white">⚓</span>
+          <span>{SITE_NAME}</span>
+        </a>
+        <a href="/categories" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition">Categorias</a>
+        <a href="/alternatives" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition">Alternativas</a>
+        <a href="/comparacoes" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition hidden sm:inline">Comparações</a>
+        <a href="/buscar" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition">Buscar</a>
+        <a href="/anuncie" class="ml-auto px-3 py-1.5 rounded-lg bg-accent text-white hover:opacity-90 transition">Anuncie</a>
       </nav>
     </header>
 
@@ -37,8 +41,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
       <slot />
     </main>
 
-    <footer class="border-t border-line mt-12">
-      <div class="max-w-6xl mx-auto px-4 py-8 text-xs text-muted space-y-2">
+    <footer class="border-t border-line mt-16 bg-panel">
+      <div class="max-w-6xl mx-auto px-4 py-10 text-xs text-muted space-y-2">
         <p class="flex flex-wrap gap-x-4 gap-y-1">
           <a href="/sobre" class="hover:text-ink">Sobre</a>
           <a href="/anuncie" class="hover:text-ink">Anuncie</a>
