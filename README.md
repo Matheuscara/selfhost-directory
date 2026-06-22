@@ -14,7 +14,7 @@ listings** pagos. Mantido pelos agentes do paperclip (refresh de dados + novas p
 |---|---|---|
 | `/tools/<slug>` | 1.327 | "<app> self-hosted" |
 | `/category/<slug>` | ~83 | "<categoria> self-hosted open source" |
-| `/alternative-to/<slug>` | 32 (cresce) | **"alternativa self-hosted ao <serviço pago>"** ← o ouro |
+| `/alternative-to/<slug>` | 98 (cresce) | **"alternativa self-hosted ao <serviço pago>"** ← o ouro |
 | `/`, `/categories`, `/alternatives` | índices | navegação |
 
 ## Dados
@@ -44,4 +44,6 @@ Routine semanal: `data:update` → expandir `alternatives.json` (mais serviços 
 gerar conteúdo editorial por página → rebuild/commit → Cloudflare auto-deploy.
 
 ## Status (22-06-2026)
-✅ MVP buildando: 1.445 páginas estáticas. ⏳ Falta: marca/domínio, deploy, IDs de afiliado, wiring paperclip.
+✅ MVP buildando: **1.511 páginas** (98 alternativas), SEO (JSON-LD/FAQ/canonical/OG/robots),
+auto-fetch de dados no build, scaffold de manutenção. Pushado em github.com/Matheuscara/selfhost-directory.
+⏳ Falta (do Matheus, em casa): marca/domínio, deploy Cloudflare Pages, IDs de afiliado, deploy hook + routine paperclip.
