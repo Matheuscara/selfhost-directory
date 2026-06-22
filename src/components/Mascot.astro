@@ -1,0 +1,58 @@
+---
+// Mascote do SelfHost Directory: "Hostie" — um servidor-casinha amigável.
+// Uso: <Mascot class="w-56 h-56" />
+const { class: klass = 'w-56 h-56' } = Astro.props as { class?: string };
+---
+<svg class={klass} viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hostie, o mascote">
+  <defs>
+    <linearGradient id="body" x1="64" y1="78" x2="176" y2="186" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6366f1" />
+      <stop offset="1" stop-color="#4f46e5" />
+    </linearGradient>
+    <linearGradient id="roof" x1="60" y1="34" x2="180" y2="80" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4338ca" />
+      <stop offset="1" stop-color="#3730a3" />
+    </linearGradient>
+  </defs>
+
+  <!-- sombra -->
+  <ellipse cx="120" cy="214" rx="74" ry="12" fill="#0f172a" opacity="0.08" />
+
+  <!-- antena -->
+  <line x1="120" y1="40" x2="120" y2="22" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" />
+  <circle cx="120" cy="18" r="7" fill="#0d9488" />
+  <circle cx="120" cy="18" r="7" fill="#0d9488">
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- telhado (casa = self-hosted) -->
+  <path d="M54 80 L120 36 L186 80 Z" fill="url(#roof)" stroke="#3730a3" stroke-width="2" stroke-linejoin="round" />
+
+  <!-- corpo (servidor) -->
+  <rect x="64" y="78" width="112" height="106" rx="20" fill="url(#body)" />
+
+  <!-- painel do rosto -->
+  <rect x="80" y="96" width="80" height="46" rx="13" fill="#ffffff" />
+
+  <!-- olhos -->
+  <circle cx="103" cy="118" r="7.5" fill="#0f172a" />
+  <circle cx="137" cy="118" r="7.5" fill="#0f172a" />
+  <circle cx="105.5" cy="115.5" r="2.4" fill="#ffffff" />
+  <circle cx="139.5" cy="115.5" r="2.4" fill="#ffffff" />
+
+  <!-- bochechas -->
+  <circle cx="90" cy="128" r="4" fill="#f9a8d4" opacity="0.7" />
+  <circle cx="150" cy="128" r="4" fill="#f9a8d4" opacity="0.7" />
+
+  <!-- sorriso -->
+  <path d="M108 130 Q120 140 132 130" stroke="#0f172a" stroke-width="3" stroke-linecap="round" fill="none" />
+
+  <!-- LEDs / slots do servidor -->
+  <circle cx="92" cy="162" r="4.5" fill="#34d399" />
+  <circle cx="108" cy="162" r="4.5" fill="#fbbf24" />
+  <rect x="122" y="158" width="36" height="8" rx="4" fill="#ffffff" opacity="0.55" />
+
+  <!-- pezinhos -->
+  <rect x="80" y="183" width="20" height="13" rx="5" fill="#4338ca" />
+  <rect x="140" y="183" width="20" height="13" rx="5" fill="#4338ca" />
+</svg>
