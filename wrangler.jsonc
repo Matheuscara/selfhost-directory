@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "selfhost-directory",
+  "compatibility_date": "2026-06-23",
+  // Site estático: sem "main" (worker), só servir os assets gerados em dist/.
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}
