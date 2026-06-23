@@ -4,8 +4,8 @@ import sitemap from '@astrojs/sitemap';
 import pagefind from 'astro-pagefind';
 import tailwindcss from '@tailwindcss/vite';
 
-// Troque pelo domínio final quando definirmos a marca.
-const SITE = process.env.SITE_URL || 'https://selfhost-directory.pages.dev';
+// Domínio final do site (pode sobrescrever via env SITE_URL se mudar).
+const SITE = process.env.SITE_URL || 'https://selfhostedalternatives.com';
 
 export default defineConfig({
   site: SITE,
