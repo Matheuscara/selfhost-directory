@@ -42,15 +42,16 @@ nix-shell -p nodejs_22 --run 'npm run build'   # -> dist/ (estático)
 - Repo GitHub (conta pessoal `Matheuscara`, público); cada push na `main` redeploya automático.
 - Domínio padrão fixado em `astro.config.mjs` (canonical/sitemap/robots corretos).
 
-## Manutenção por agentes (paperclip) — a fazer
-Routine semanal: `data:update` → expandir `alternatives.json` (mais serviços pagos) →
-gerar conteúdo editorial por página → rebuild/commit → Cloudflare auto-deploy.
+## Manutenção / como crescer o site
+Veja **[MANUTENCAO.md](./MANUTENCAO.md)** — playbook completo: editar `data/*.json` → `npm run build`
++ `npm run audit` → `git push` (Cloudflare publica sozinho). Inclui prompts prontos pro Claude gerar
+lotes de conteúdo e os helpers `npm run helper` / `npm run audit`.
 
 ## Status (22-06-2026)
 ✅ MVP buildando: **1.530 páginas**. 98 alternativas + 83 categorias + 14 comparações (todas com FAQ + JSON-LD).
 **38 descrições únicas** pt-BR nos apps mais populares (anti-duplicado). **Busca** (Pagefind).
 **Funil** `/anuncie` (featured listings) + Sobre + 404. SEO: JSON-LD, canonical, Open Graph, robots.
-Auto-fetch de dados no build. Manutenção por agente: `expand-alternatives.sh` + `write-descriptions.sh`.
+Auto-fetch de dados no build. Manutenção: lotes manuais via Claude (ver `MANUTENCAO.md`).
 Pushado em github.com/Matheuscara/selfhost-directory.
 
 ⏳ Falta (do Matheus, em casa): marca/domínio, deploy Cloudflare Pages, IDs de afiliado, deploy hook + routine paperclip.

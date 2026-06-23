@@ -8,7 +8,9 @@
     "dev": "npm run fetch:data && astro dev",
     "build": "npm run fetch:data && astro build",
     "preview": "astro preview",
-    "data:update": "git -C data-src pull --ff-only || (rm -rf data-src && npm run fetch:data)"
+    "data:update": "git -C data-src pull --ff-only || (rm -rf data-src && npm run fetch:data)",
+    "audit": "node scripts/seo-audit.mjs",
+    "helper": "npm run fetch:data && node scripts/data-helpers.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.1",
