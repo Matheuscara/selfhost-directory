@@ -7,12 +7,12 @@ const { class: klass = 'w-56 h-56' } = Astro.props as { class?: string };
 <svg class={`mascot ${klass}`} viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hostie, the mascot">
   <defs>
     <linearGradient id="body" x1="64" y1="78" x2="176" y2="186" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#6366f1" />
-      <stop offset="1" stop-color="#4f46e5" />
+      <stop style="stop-color:var(--mascot-1)" />
+      <stop offset="1" style="stop-color:var(--mascot-2)" />
     </linearGradient>
     <linearGradient id="roof" x1="60" y1="34" x2="180" y2="80" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#4338ca" />
-      <stop offset="1" stop-color="#3730a3" />
+      <stop style="stop-color:var(--mascot-2)" />
+      <stop offset="1" style="stop-color:var(--mascot-roof)" />
     </linearGradient>
   </defs>
 
@@ -27,7 +27,7 @@ const { class: klass = 'w-56 h-56' } = Astro.props as { class?: string };
   </circle>
 
   <!-- telhado (casa = self-hosted) -->
-  <path d="M54 80 L120 36 L186 80 Z" fill="url(#roof)" stroke="#3730a3" stroke-width="2" stroke-linejoin="round" />
+  <path d="M54 80 L120 36 L186 80 Z" fill="url(#roof)" style="stroke:var(--mascot-roof)" stroke-width="2" stroke-linejoin="round" />
 
   <!-- corpo (servidor) -->
   <rect x="64" y="78" width="112" height="106" rx="20" fill="url(#body)" />
@@ -60,7 +60,7 @@ const { class: klass = 'w-56 h-56' } = Astro.props as { class?: string };
   <rect x="122" y="158" width="36" height="8" rx="4" fill="#ffffff" opacity="0.55" />
 
   <!-- pezinhos -->
-  <rect x="80" y="183" width="20" height="13" rx="5" fill="#4338ca" />
-  <rect x="140" y="183" width="20" height="13" rx="5" fill="#4338ca" />
+  <rect x="80" y="183" width="20" height="13" rx="5" style="fill:var(--mascot-roof)" />
+  <rect x="140" y="183" width="20" height="13" rx="5" style="fill:var(--mascot-roof)" />
 </svg>
 </span>

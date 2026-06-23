@@ -8,6 +8,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 <!doctype html>
 <html lang="en">
   <head>
+    <script is:inline>
+      // aplica o tema antes da pintura (evita flash). Padrão: preferência do sistema.
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
@@ -34,7 +45,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
         <a href="/alternatives" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition">Alternatives</a>
         <a href="/comparisons" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition hidden sm:inline">Comparisons</a>
         <a href="/search" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition">Search</a>
-        <a href="/advertise" class="ml-auto px-3 py-1.5 rounded-lg bg-accent text-white hover:opacity-90 transition">Advertise</a>
+        <button id="theme-toggle" type="button" aria-label="Toggle dark mode"
+                class="ml-auto w-9 h-9 flex items-center justify-center rounded-md text-muted hover:text-ink hover:bg-panel-2 transition text-base">🌙</button>
+        <a href="/advertise" class="px-3 py-1.5 rounded-lg bg-accent text-white hover:opacity-90 transition">Advertise</a>
       </nav>
     </header>
 
@@ -56,5 +69,19 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
         <p>Some hosting links are affiliate links. This doesn't change the price for you and helps keep the site running.</p>
       </div>
     </footer>
+
+    <script is:inline>
+      (function () {
+        var btn = document.getElementById('theme-toggle');
+        if (!btn) return;
+        function sync() { btn.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙'; }
+        sync();
+        btn.addEventListener('click', function () {
+          var dark = document.documentElement.classList.toggle('dark');
+          try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+          sync();
+        });
+      })();
+    </script>
   </body>
 </html>

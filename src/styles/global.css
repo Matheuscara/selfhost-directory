@@ -1,17 +1,40 @@
 @import "tailwindcss";
 
 @theme {
-  /* paleta clara, moderna */
-  --color-bg: #f6f7fb;        /* fundo da página (cinza-azulado bem claro) */
-  --color-panel: #ffffff;     /* cards */
-  --color-panel-2: #f1f5f9;   /* hover / superfícies secundárias */
-  --color-line: #e6e9f0;      /* bordas */
-  --color-ink: #0f172a;       /* texto principal (slate-900) */
-  --color-muted: #64748b;     /* texto secundário (slate-500) */
-  --color-accent: #4f46e5;    /* indigo-600 */
-  --color-accent-2: #0d9488;  /* teal-600 */
+  /* paleta clara (padrão) */
+  --color-bg: #f6f7fb;
+  --color-panel: #ffffff;
+  --color-panel-2: #f1f5f9;
+  --color-line: #e6e9f0;
+  --color-ink: #0f172a;
+  --color-muted: #64748b;
+  --color-accent: #4f46e5;    /* claro = indigo */
+  --color-accent-2: #0d9488;
+
+  /* cores do mascote (trocam no escuro) */
+  --mascot-1: #6366f1;
+  --mascot-2: #4f46e5;
+  --mascot-roof: #3730a3;
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ---- TEMA ESCURO: accent muda de azul para verde (estilo devsplit) ---- */
+html.dark {
+  --color-bg: #0a0e13;
+  --color-panel: #121821;
+  --color-panel-2: #1b2430;
+  --color-line: #263041;
+  --color-ink: #e6edf3;
+  --color-muted: #8b98a5;
+  --color-accent: #22c55e;    /* escuro = verde */
+  --color-accent-2: #34d399;
+
+  --mascot-1: #4ade80;
+  --mascot-2: #22c55e;
+  --mascot-roof: #15803d;
+
+  color-scheme: dark;
 }
 
 html {
@@ -22,14 +45,16 @@ html {
 body {
   color: var(--color-ink);
   font-family: var(--font-sans);
-  /* textura: grade de pontos bem sutil sobre o fundo */
   background-color: var(--color-bg);
   background-image: radial-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px);
   background-size: 22px 22px;
   background-position: -11px -11px;
 }
+html.dark body {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
 
-/* hero: glow + grade fina indigo */
+/* hero: glow + grade fina (indigo no claro, verde no escuro) */
 .hero-gradient {
   background:
     radial-gradient(1100px 380px at 50% -10%, rgba(79, 70, 229, 0.20), transparent 60%),
@@ -37,12 +62,18 @@ body {
     linear-gradient(90deg, rgba(79, 70, 229, 0.05) 1px, transparent 1px) 0 0 / 28px 28px,
     linear-gradient(180deg, #eef2ff 0%, #f6f7fb 100%);
 }
+html.dark .hero-gradient {
+  background:
+    radial-gradient(1100px 380px at 50% -10%, rgba(34, 197, 94, 0.16), transparent 60%),
+    linear-gradient(rgba(34, 197, 94, 0.05) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(90deg, rgba(34, 197, 94, 0.05) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(180deg, #0f1a16 0%, #0a0e13 100%);
+}
 
-/* texto longo (descrições com markdown convertido a links) */
 .prose a { color: var(--color-accent); text-decoration: underline; }
 
-/* destaque dos termos nos resultados de busca */
-.pf-excerpt mark { background: rgba(79, 70, 229, 0.15); color: var(--color-ink); border-radius: 4px; padding: 0 2px; }
+/* destaque dos termos na busca (acompanha o accent) */
+.pf-excerpt mark { background: color-mix(in srgb, var(--color-accent) 18%, transparent); color: var(--color-ink); border-radius: 4px; padding: 0 2px; }
 
 .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -66,13 +97,13 @@ body {
   .mascot .eyes { animation: none; }
 }
 
-/* busca Pagefind — alinhar ao tema */
+/* busca Pagefind — acompanha o tema */
 :root {
-  --pagefind-ui-primary: #4f46e5;
-  --pagefind-ui-text: #0f172a;
-  --pagefind-ui-background: #ffffff;
-  --pagefind-ui-border: #e6e9f0;
-  --pagefind-ui-tag: #f1f5f9;
+  --pagefind-ui-primary: var(--color-accent);
+  --pagefind-ui-text: var(--color-ink);
+  --pagefind-ui-background: var(--color-panel);
+  --pagefind-ui-border: var(--color-line);
+  --pagefind-ui-tag: var(--color-panel-2);
   --pagefind-ui-border-radius: 12px;
   --pagefind-ui-font: var(--font-sans);
 }
