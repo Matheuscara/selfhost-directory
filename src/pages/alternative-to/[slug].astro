@@ -16,20 +16,20 @@ const names = tools.slice(0, 3).map((t) => t.name).join(', ');
 
 const faq = [
   {
-    q: `Existe alternativa self-hosted gratuita ao ${alt.proprietary}?`,
+    q: `Is there a free self-hosted alternative to ${alt.proprietary}?`,
     a: tools.length
-      ? `Sim. Reunimos ${tools.length} alternativas self-hosted e open source ao ${alt.proprietary} — entre elas ${names}. Todas você roda no seu próprio servidor.`
-      : `Em breve listaremos alternativas self-hosted ao ${alt.proprietary}.`,
+      ? `Yes. We've gathered ${tools.length} self-hosted, open source alternatives to ${alt.proprietary} — including ${names}. You run all of them on your own server.`
+      : `We'll soon list self-hosted alternatives to ${alt.proprietary}.`,
   },
   {
-    q: `Qual a melhor alternativa open source ao ${alt.proprietary}?`,
+    q: `What is the best open source alternative to ${alt.proprietary}?`,
     a: top
-      ? `${top.name} é uma das mais populares (${top.stargazers_count.toLocaleString('pt-BR')} estrelas no GitHub). A "melhor" depende do seu caso — compare as opções abaixo.`
-      : `Estamos avaliando as melhores opções.`,
+      ? `${top.name} is one of the most popular (${top.stargazers_count.toLocaleString('en-US')} GitHub stars). The "best" depends on your case — compare the options below.`
+      : `We're still evaluating the best options.`,
   },
   {
-    q: `Preciso de um servidor para substituir o ${alt.proprietary}?`,
-    a: `Sim. Você pode usar um servidor em casa (homelab) ou um VPS barato (a partir de ~€4/mês). Veja sugestões de hospedagem nesta página.`,
+    q: `Do I need a server to replace ${alt.proprietary}?`,
+    a: `Yes. You can use a home server (homelab) or a cheap VPS (from ~€4/mo). See the hosting suggestions on this page.`,
   },
 ];
 
@@ -39,9 +39,9 @@ const jsonld = {
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Início', item: new URL('/', Astro.site).href },
-        { '@type': 'ListItem', position: 2, name: 'Alternativas', item: new URL('/alternatives', Astro.site).href },
-        { '@type': 'ListItem', position: 3, name: `Alternativa a ${alt.proprietary}` },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+        { '@type': 'ListItem', position: 2, name: 'Alternatives', item: new URL('/alternatives', Astro.site).href },
+        { '@type': 'ListItem', position: 3, name: `Alternative to ${alt.proprietary}` },
       ],
     },
     {
@@ -64,15 +64,15 @@ const jsonld = {
   ],
 };
 ---
-<Base title={`Alternativas self-hosted ao ${alt.proprietary}`}
-      description={`As ${tools.length} melhores alternativas self-hosted e open source ao ${alt.proprietary}. ${alt.blurb}`.slice(0, 160)}>
+<Base title={`Self-hosted alternatives to ${alt.proprietary}`}
+      description={`The ${tools.length} best self-hosted, open source alternatives to ${alt.proprietary}. ${alt.blurb}`.slice(0, 160)}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
 
-  <nav class="text-xs text-muted mb-4"><a href="/alternatives" class="hover:text-ink">Alternativas</a> / <span class="text-ink">{alt.proprietary}</span></nav>
-  <h1 class="text-3xl font-bold text-ink">Alternativas self-hosted ao {alt.proprietary}</h1>
+  <nav class="text-xs text-muted mb-4"><a href="/alternatives" class="hover:text-ink">Alternatives</a> / <span class="text-ink">{alt.proprietary}</span></nav>
+  <h1 class="text-3xl font-bold text-ink">Self-hosted alternatives to {alt.proprietary}</h1>
   <p class="text-muted mt-3 max-w-3xl">
-    {alt.blurb} Abaixo estão {tools.length} opções open source que você hospeda no seu próprio servidor —
-    sem mensalidade por usuário e com total controle dos seus dados.
+    {alt.blurb} Below are {tools.length} open source options you host on your own server —
+    with no monthly per-user fee and full control of your data.
   </p>
 
   <div class="grid lg:grid-cols-3 gap-8 mt-8">
@@ -80,10 +80,10 @@ const jsonld = {
       <div class="grid sm:grid-cols-2 gap-4">
         {tools.map((t) => <ToolCard tool={t} />)}
       </div>
-      {tools.length === 0 && <p class="text-muted">Em breve.</p>}
+      {tools.length === 0 && <p class="text-muted">Coming soon.</p>}
 
       <section class="mt-12">
-        <h2 class="text-xl font-semibold text-ink mb-4">Perguntas frequentes</h2>
+        <h2 class="text-xl font-semibold text-ink mb-4">Frequently asked questions</h2>
         <div class="space-y-4">
           {faq.map((f) => (
             <details class="rounded-lg border border-line bg-panel p-4">

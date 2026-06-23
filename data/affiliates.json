@@ -1,24 +1,24 @@
 {
-  "_comment": "Onde hospedar — links de afiliado. Troque YOUR_ID pelo seu ID de cada programa. Não é secret, mas mantenha só aqui.",
+  "_comment": "Where to host — affiliate links. Replace YOUR_ID with your ID for each program. Not a secret, but keep it only here.",
   "providers": [
     {
       "name": "Hetzner Cloud",
-      "pitch": "VPS barato e potente (EU/US) — ideal pra rodar você mesmo.",
-      "price": "a partir de ~€4/mês",
+      "pitch": "Cheap, powerful VPS (EU/US) — ideal for self-hosting.",
+      "price": "from ~€4/mo",
       "url": "https://www.hetzner.com/cloud?ref=YOUR_ID",
       "tag": "VPS"
     },
     {
       "name": "Hostinger VPS",
-      "pitch": "VPS com painel simples e preço agressivo.",
-      "price": "a partir de ~$5/mês",
+      "pitch": "VPS with a simple panel and aggressive pricing.",
+      "price": "from ~$5/mo",
       "url": "https://www.hostinger.com/vps-hosting?REFERRALCODE=YOUR_ID",
       "tag": "VPS"
     },
     {
       "name": "Cloudways",
-      "pitch": "Managed cloud — eles cuidam do servidor, você só instala o app.",
-      "price": "a partir de ~$11/mês",
+      "pitch": "Managed cloud — they handle the server, you just install the app.",
+      "price": "from ~$11/mo",
       "url": "https://www.cloudways.com/en/?id=YOUR_ID",
       "tag": "Managed"
     }

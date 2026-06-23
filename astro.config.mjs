@@ -11,8 +11,8 @@ export default defineConfig({
   site: SITE,
   integrations: [
     pagefind(),
-    // não listar páginas utilitárias/noindex no sitemap (ex.: busca interna)
-    sitemap({ filter: (page) => !/\/buscar\/?$/.test(page) }),
+    // don't list utility/noindex pages in the sitemap (e.g. internal search)
+    sitemap({ filter: (page) => !/\/search\/?$/.test(page) }),
   ],
   vite: { plugins: [tailwindcss()] },
 });

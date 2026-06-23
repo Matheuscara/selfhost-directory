@@ -15,18 +15,18 @@ const names = tools.slice(0, 3).map((t) => t.name).join(', ');
 
 const faq = [
   {
-    q: `Quais são as melhores ferramentas self-hosted de ${cat.name}?`,
+    q: `What are the best self-hosted ${cat.name} tools?`,
     a: tools.length
-      ? `Entre as ${tools.length} opções, as mais populares incluem ${names}. Compare licença, plataforma e popularidade na lista abaixo.`
-      : `Estamos catalogando as opções.`,
+      ? `Among the ${tools.length} options, the most popular include ${names}. Compare license, platform and popularity in the list below.`
+      : `We're still cataloguing the options.`,
   },
   {
-    q: `Existe alternativa open source gratuita para ${cat.name}?`,
-    a: `Sim — todas as ${tools.length} ferramentas desta página são open source e você roda no seu próprio servidor, sem mensalidade.`,
+    q: `Is there a free open source alternative for ${cat.name}?`,
+    a: `Yes — all ${tools.length} tools on this page are open source and you run them on your own server, with no monthly fee.`,
   },
   {
-    q: `Onde hospedar um app de ${cat.name}?`,
-    a: `Em um servidor em casa (homelab) ou em um VPS barato a partir de ~€4/mês. Veja as sugestões nesta página.`,
+    q: `Where can I host a ${cat.name} app?`,
+    a: `On a home server (homelab) or a cheap VPS from ~€4/mo. See the suggestions on this page.`,
   },
 ];
 
@@ -36,8 +36,8 @@ const jsonld = {
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Início', item: new URL('/', Astro.site).href },
-        { '@type': 'ListItem', position: 2, name: 'Categorias', item: new URL('/categories', Astro.site).href },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+        { '@type': 'ListItem', position: 2, name: 'Categories', item: new URL('/categories', Astro.site).href },
         { '@type': 'ListItem', position: 3, name: cat.name },
       ],
     },
@@ -53,15 +53,15 @@ const jsonld = {
 };
 ---
 <Base title={`${cat.name} self-hosted — open source`}
-      description={`As ${tools.length} melhores ferramentas self-hosted de ${cat.name}. Alternativas open source que você roda no seu servidor, sem mensalidade.`.slice(0, 160)}>
+      description={`The ${tools.length} best self-hosted ${cat.name} tools. Open source alternatives you run on your own server, with no monthly fee.`.slice(0, 160)}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
 
-  <nav class="text-xs text-muted mb-4"><a href="/categories" class="hover:text-ink">Categorias</a> / <span class="text-ink">{cat.name}</span></nav>
-  <h1 class="text-3xl font-bold text-ink">Melhores apps self-hosted de {cat.name}</h1>
+  <nav class="text-xs text-muted mb-4"><a href="/categories" class="hover:text-ink">Categories</a> / <span class="text-ink">{cat.name}</span></nav>
+  <h1 class="text-3xl font-bold text-ink">Best self-hosted {cat.name} apps</h1>
   {cat.description && <p class="text-muted mt-3 max-w-3xl prose" set:html={cat.descriptionHtml}></p>}
   <p class="text-muted mt-2 max-w-3xl">
-    {tools.length} ferramentas open source de {cat.name} que você hospeda no seu próprio servidor —
-    com controle total dos dados e sem custo por usuário.
+    {tools.length} open source {cat.name} tools you host on your own server —
+    with full control of your data and no per-user cost.
   </p>
 
   <div class="grid lg:grid-cols-3 gap-8 mt-6">
@@ -71,7 +71,7 @@ const jsonld = {
       </div>
 
       <section class="mt-12">
-        <h2 class="text-xl font-semibold text-ink mb-4">Perguntas frequentes</h2>
+        <h2 class="text-xl font-semibold text-ink mb-4">Frequently asked questions</h2>
         <div class="space-y-4">
           {faq.map((f) => (
             <details class="rounded-lg border border-line bg-panel p-4">

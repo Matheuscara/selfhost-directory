@@ -12,24 +12,25 @@ const comparisons = getComparisons().slice(0, 8);
 const popular = software.slice(0, 12);
 const topCats = categories.slice(0, 12);
 const DEFAULT_ALTS = 12;
+const fmt = (n: number) => n.toLocaleString('en-US');
 ---
-<Base title="SelfHost Directory — alternativas self-hosted e open source">
+<Base title="SelfHost Directory — self-hosted and open source alternatives">
   <section class="hero-gradient rounded-3xl border border-line px-6 py-12 sm:py-16">
     <div class="grid md:grid-cols-2 gap-10 items-center max-w-5xl mx-auto">
       <div class="text-center md:text-left order-2 md:order-1">
         <span class="inline-block text-xs font-medium px-3 py-1 rounded-full bg-white/70 border border-line text-accent">
-          {software.length.toLocaleString('pt-BR')} apps open source catalogados
+          {fmt(software.length)} open source apps catalogued
         </span>
         <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-ink mt-5">
-          Pare de alugar software. <span class="text-accent">Rode você mesmo.</span>
+          Stop renting software. <span class="text-accent">Run it yourself.</span>
         </h1>
         <p class="text-muted mt-4 text-base sm:text-lg">
-          Pra quase todo serviço pago existe uma alternativa self-hosted e open source.
-          Encontre a sua — sem mensalidade e com seus dados sob seu controle.
+          For almost every paid service there's a self-hosted, open source alternative.
+          Find yours — no monthly fees, with your data under your control.
         </p>
         <div class="mt-8 flex flex-wrap justify-center md:justify-start gap-3">
-          <a href="/buscar" class="px-6 py-3 rounded-xl bg-accent text-white font-semibold text-sm shadow-sm hover:opacity-90 transition">🔍 Buscar {software.length.toLocaleString('pt-BR')} apps</a>
-          <a href="/alternatives" class="px-6 py-3 rounded-xl bg-white border border-line text-ink font-semibold text-sm shadow-sm hover:bg-panel-2 transition">Ver alternativas</a>
+          <a href="/search" class="px-6 py-3 rounded-xl bg-accent text-white font-semibold text-sm shadow-sm hover:opacity-90 transition">🔍 Search {fmt(software.length)} apps</a>
+          <a href="/alternatives" class="px-6 py-3 rounded-xl bg-white border border-line text-ink font-semibold text-sm shadow-sm hover:bg-panel-2 transition">Browse alternatives</a>
         </div>
       </div>
       <div class="flex justify-center md:justify-end order-1 md:order-2">
@@ -41,13 +42,13 @@ const DEFAULT_ALTS = 12;
   <FeaturedRow />
 
   <section class="mb-12 mt-12">
-    <h2 class="text-2xl font-bold text-ink">Trocar um serviço pago</h2>
-    <p class="text-muted mt-1">Digite o serviço que você quer substituir.</p>
+    <h2 class="text-2xl font-bold text-ink">Replace a paid service</h2>
+    <p class="text-muted mt-1">Type the service you want to replace.</p>
 
     <div class="relative mt-4 max-w-xl">
       <span class="absolute left-4 top-1/2 -translate-y-1/2 text-muted">🔍</span>
       <input id="alt-search" type="text" autocomplete="off"
-             placeholder="Ex.: Notion, Google Drive, Slack, Spotify…"
+             placeholder="e.g. Notion, Google Drive, Slack, Spotify…"
              class="w-full rounded-xl border border-line bg-panel pl-11 pr-4 py-3 text-ink shadow-sm focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent transition" />
     </div>
 
@@ -60,8 +61,8 @@ const DEFAULT_ALTS = 12;
         </a>
       ))}
     </div>
-    <p id="alt-empty" class="hidden text-muted text-sm mt-4">Nenhum serviço encontrado com esse nome. <a href="/alternatives" class="text-accent underline">Ver todos</a>.</p>
-    <a href="/alternatives" class="inline-block mt-4 text-sm text-accent hover:underline">Ver todas as {alternatives.length} alternativas →</a>
+    <p id="alt-empty" class="hidden text-muted text-sm mt-4">No service found with that name. <a href="/alternatives" class="text-accent underline">See all</a>.</p>
+    <a href="/alternatives" class="inline-block mt-4 text-sm text-accent hover:underline">See all {alternatives.length} alternatives →</a>
   </section>
 
   <script is:inline define:vars={{ DEFAULT_ALTS }}>
@@ -85,8 +86,8 @@ const DEFAULT_ALTS = 12;
   </script>
 
   <section class="mb-12">
-    <h2 class="text-2xl font-bold text-ink mb-1">Categorias populares</h2>
-    <p class="text-muted mb-4">Explore por tipo de aplicação.</p>
+    <h2 class="text-2xl font-bold text-ink mb-1">Popular categories</h2>
+    <p class="text-muted mb-4">Browse by type of application.</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
       {topCats.map((c) => (
         <a href={`/category/${c.slug}`}
@@ -96,11 +97,11 @@ const DEFAULT_ALTS = 12;
         </a>
       ))}
     </div>
-    <a href="/categories" class="inline-block mt-4 text-sm text-accent hover:underline">Ver todas as {categories.length} categorias →</a>
+    <a href="/categories" class="inline-block mt-4 text-sm text-accent hover:underline">See all {categories.length} categories →</a>
   </section>
 
   <section class="mb-12">
-    <h2 class="text-2xl font-bold text-ink mb-4">Comparações populares</h2>
+    <h2 class="text-2xl font-bold text-ink mb-4">Popular comparisons</h2>
     <div class="flex flex-wrap gap-2">
       {comparisons.map((c) => (
         <a href={`/vs/${c.slug}`}
@@ -112,7 +113,7 @@ const DEFAULT_ALTS = 12;
   </section>
 
   <section>
-    <h2 class="text-2xl font-bold text-ink mb-4">Mais populares</h2>
+    <h2 class="text-2xl font-bold text-ink mb-4">Most popular</h2>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {popular.map((t) => <ToolCard tool={t} />)}
     </div>

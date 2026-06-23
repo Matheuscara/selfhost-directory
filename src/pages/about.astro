@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import { getSoftware, getCategories, getAlternatives } from '../lib/data';
+const sw = getSoftware().length;
+const cats = getCategories().length;
+const alts = getAlternatives().length;
+---
+<Base title="About SelfHost Directory">
+  <h1 class="text-3xl font-bold text-ink">About</h1>
+  <div class="prose text-muted mt-4 max-w-2xl space-y-4">
+    <p>
+      <strong class="text-ink">SelfHost Directory</strong> is a catalog of
+      <strong class="text-ink">self-hosted and open source</strong> alternatives to paid services. The idea is simple:
+      for almost every SaaS that charges a monthly fee, there's an app you can run on your own server —
+      with full control of your data and no per-user cost.
+    </p>
+    <p>
+      We catalog <strong class="text-ink">{sw.toLocaleString('en-US')} tools</strong> across
+      {cats} categories, with {alts} "alternative to a paid service" guides. The data comes from the open source
+      project <a class="underline" href="https://github.com/awesome-selfhosted/awesome-selfhosted-data" target="_blank" rel="noopener">awesome-selfhosted</a>
+      (CC-BY-SA 3.0), continuously updated.
+    </p>
+    <p>
+      The site is maintained with automation: the data is refreshed regularly and new guides are added often.
+      Found a mistake or want to suggest a tool? Contribute directly to the
+      <a class="underline" href="https://github.com/awesome-selfhosted/awesome-selfhosted-data" target="_blank" rel="noopener">dataset</a>.
+    </p>
+  </div>
+</Base>

@@ -11,7 +11,7 @@ const { tool } = Astro.props as { tool: Software };
       <div class="flex items-start justify-between gap-2">
         <h3 class="font-semibold text-ink group-hover:text-accent transition-colors truncate">{tool.name}</h3>
         {tool.stargazers_count > 0 && (
-          <span class="text-xs text-muted whitespace-nowrap">★ {tool.stargazers_count.toLocaleString('pt-BR')}</span>
+          <span class="text-xs text-muted whitespace-nowrap">★ {tool.stargazers_count.toLocaleString('en-US')}</span>
         )}
       </div>
     </div>

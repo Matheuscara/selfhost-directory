@@ -15,12 +15,12 @@ const maxStars = Math.max(...cmp.tools.map((t) => t.stargazers_count), 1);
 
 const faq = [
   {
-    q: `Qual a melhor alternativa self-hosted entre ${names.join(', ')}?`,
-    a: `Depende do seu caso. ${names[0]} é a mais popular (${cmp.tools[0].stargazers_count.toLocaleString('pt-BR')} estrelas). Compare licença, plataforma e recursos na tabela acima.`,
+    q: `Which is the best self-hosted alternative among ${names.join(', ')}?`,
+    a: `It depends on your case. ${names[0]} is the most popular (${cmp.tools[0].stargazers_count.toLocaleString('en-US')} stars). Compare license, platform and features in the table above.`,
   },
   {
-    q: `${names.join(', ')} são gratuitos?`,
-    a: `Sim, todos são open source e self-hosted — você roda no seu próprio servidor sem mensalidade.`,
+    q: `Are ${names.join(', ')} free?`,
+    a: `Yes, they're all open source and self-hosted — you run them on your own server with no monthly fee.`,
   },
 ];
 
@@ -38,11 +38,11 @@ const jsonld = {
   ],
 };
 ---
-<Base title={`${cmp.title} — comparação self-hosted`}
-      description={`${cmp.title} comparados: licença, popularidade e recursos. ${cmp.intro}`.slice(0, 160)}>
+<Base title={`${cmp.title} — self-hosted comparison`}
+      description={`${cmp.title} compared: license, popularity and features. ${cmp.intro}`.slice(0, 160)}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
 
-  <nav class="text-xs text-muted mb-4"><a href="/comparacoes" class="hover:text-ink">Comparações</a> / <span class="text-ink">{cmp.title}</span></nav>
+  <nav class="text-xs text-muted mb-4"><a href="/comparisons" class="hover:text-ink">Comparisons</a> / <span class="text-ink">{cmp.title}</span></nav>
   <h1 class="text-3xl font-bold text-ink">{cmp.title}</h1>
   <p class="text-muted mt-3 max-w-3xl">{cmp.intro}</p>
 
@@ -50,10 +50,10 @@ const jsonld = {
     <table class="w-full text-sm border-collapse">
       <thead>
         <tr class="text-left text-muted border-b border-line">
-          <th class="py-2 pr-4 font-medium">Ferramenta</th>
+          <th class="py-2 pr-4 font-medium">Tool</th>
           <th class="py-2 pr-4 font-medium">★ GitHub</th>
-          <th class="py-2 pr-4 font-medium">Licença</th>
-          <th class="py-2 pr-4 font-medium">Plataforma</th>
+          <th class="py-2 pr-4 font-medium">License</th>
+          <th class="py-2 pr-4 font-medium">Platform</th>
         </tr>
       </thead>
       <tbody>
@@ -64,7 +64,7 @@ const jsonld = {
                 <Favicon url={t.website_url} class="w-6 h-6" />{t.name}
               </a>
             </td>
-            <td class="py-3 pr-4 text-ink">{t.stargazers_count.toLocaleString('pt-BR')}</td>
+            <td class="py-3 pr-4 text-ink">{t.stargazers_count.toLocaleString('en-US')}</td>
             <td class="py-3 pr-4 text-muted">{t.licenses.join(', ') || '—'}</td>
             <td class="py-3 pr-4 text-muted">{t.platforms.slice(0, 3).join(', ') || '—'}</td>
           </tr>
@@ -74,14 +74,14 @@ const jsonld = {
   </div>
 
   <section class="mt-8 rounded-xl border border-line bg-panel p-5 shadow-sm">
-    <h2 class="text-sm font-semibold text-muted uppercase tracking-wide mb-4">Popularidade (★ no GitHub)</h2>
+    <h2 class="text-sm font-semibold text-muted uppercase tracking-wide mb-4">Popularity (★ on GitHub)</h2>
     {cmp.tools.map((t) => (
       <div class="flex items-center gap-3 mb-2.5">
         <span class="w-28 sm:w-36 truncate text-sm text-ink">{t.name}</span>
         <div class="flex-1 bg-panel-2 rounded-full h-5 overflow-hidden">
           <div class="h-full bg-accent rounded-full" style={`width:${((t.stargazers_count / maxStars) * 100).toFixed(1)}%`}></div>
         </div>
-        <span class="text-xs text-muted w-16 text-right">{t.stargazers_count.toLocaleString('pt-BR')}</span>
+        <span class="text-xs text-muted w-16 text-right">{t.stargazers_count.toLocaleString('en-US')}</span>
       </div>
     ))}
   </section>
@@ -99,7 +99,7 @@ const jsonld = {
       ))}
 
       <section class="mt-4">
-        <h2 class="text-xl font-semibold text-ink mb-4">Perguntas frequentes</h2>
+        <h2 class="text-xl font-semibold text-ink mb-4">Frequently asked questions</h2>
         <div class="space-y-4">
           {faq.map((f) => (
             <details class="rounded-lg border border-line bg-panel p-4">

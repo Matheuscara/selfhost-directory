@@ -1,12 +1,12 @@
 ---
 import '../styles/global.css';
 const { title, description, noindex } = Astro.props as { title: string; description?: string; noindex?: boolean };
-const desc = description ?? 'Diretório de alternativas self-hosted e open source. Encontre o app certo pra rodar no seu servidor.';
+const desc = description ?? 'A directory of self-hosted and open source alternatives. Find the right app to run on your own server.';
 const SITE_NAME = 'SelfHost Directory';
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,11 +30,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
           <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-accent text-white">⚓</span>
           <span>{SITE_NAME}</span>
         </a>
-        <a href="/categories" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition">Categorias</a>
-        <a href="/alternatives" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition">Alternativas</a>
-        <a href="/comparacoes" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition hidden sm:inline">Comparações</a>
-        <a href="/buscar" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition">Buscar</a>
-        <a href="/anuncie" class="ml-auto px-3 py-1.5 rounded-lg bg-accent text-white hover:opacity-90 transition">Anuncie</a>
+        <a href="/categories" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition">Categories</a>
+        <a href="/alternatives" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition">Alternatives</a>
+        <a href="/comparisons" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition hidden sm:inline">Comparisons</a>
+        <a href="/search" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition">Search</a>
+        <a href="/advertise" class="ml-auto px-3 py-1.5 rounded-lg bg-accent text-white hover:opacity-90 transition">Advertise</a>
       </nav>
     </header>
 
@@ -45,15 +45,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <footer class="border-t border-line mt-16 bg-panel">
       <div class="max-w-6xl mx-auto px-4 py-10 text-xs text-muted space-y-2">
         <p class="flex flex-wrap gap-x-4 gap-y-1">
-          <a href="/sobre" class="hover:text-ink">Sobre</a>
-          <a href="/anuncie" class="hover:text-ink">Anuncie</a>
-          <a href="/categories" class="hover:text-ink">Categorias</a>
-          <a href="/alternatives" class="hover:text-ink">Alternativas</a>
-          <a href="/comparacoes" class="hover:text-ink">Comparações</a>
-          <a href="https://github.com/awesome-selfhosted/awesome-selfhosted-data" target="_blank" rel="noopener" class="hover:text-ink">Dados ↗</a>
+          <a href="/about" class="hover:text-ink">About</a>
+          <a href="/advertise" class="hover:text-ink">Advertise</a>
+          <a href="/categories" class="hover:text-ink">Categories</a>
+          <a href="/alternatives" class="hover:text-ink">Alternatives</a>
+          <a href="/comparisons" class="hover:text-ink">Comparisons</a>
+          <a href="https://github.com/awesome-selfhosted/awesome-selfhosted-data" target="_blank" rel="noopener" class="hover:text-ink">Data ↗</a>
         </p>
-        <p>{SITE_NAME} — dados de <a class="underline" href="https://github.com/awesome-selfhosted/awesome-selfhosted-data" target="_blank" rel="noopener">awesome-selfhosted</a> (CC-BY-SA 3.0).</p>
-        <p>Alguns links de hospedagem são de afiliado. Isso não muda o preço pra você e ajuda a manter o site.</p>
+        <p>{SITE_NAME} — data from <a class="underline" href="https://github.com/awesome-selfhosted/awesome-selfhosted-data" target="_blank" rel="noopener">awesome-selfhosted</a> (CC-BY-SA 3.0).</p>
+        <p>Some hosting links are affiliate links. This doesn't change the price for you and helps keep the site running.</p>
       </div>
     </footer>
   </body>

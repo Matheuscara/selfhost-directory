@@ -15,7 +15,7 @@ const related = relatedTools(tool);
 const plainDesc = tool.description.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
 const baseDesc = tool.editorial || plainDesc;
 const metaDesc = (baseDesc.length < 110
-  ? `${baseDesc} ${tool.name} é uma alternativa self-hosted open source.`
+  ? `${baseDesc} ${tool.name} is a self-hosted open source alternative.`
   : baseDesc).slice(0, 160);
 
 const jsonld = {
@@ -34,7 +34,7 @@ const jsonld = {
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Início', item: new URL('/', Astro.site).href },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
         ...(tool.tags[0] ? [{ '@type': 'ListItem', position: 2, name: tool.tags[0], item: new URL(`/category/${slugify(tool.tags[0])}`, Astro.site).href }] : []),
         { '@type': 'ListItem', position: 3, name: tool.name },
       ],
@@ -42,11 +42,11 @@ const jsonld = {
   ],
 };
 ---
-<Base title={`${tool.name} — alternativa self-hosted open source`}
+<Base title={`${tool.name} — self-hosted open source alternative`}
       description={metaDesc}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} is:inline />
   <nav class="text-xs text-muted mb-4">
-    <a href="/" class="hover:text-ink">Início</a> /
+    <a href="/" class="hover:text-ink">Home</a> /
     {tool.tags[0] && <a href={`/category/${slugify(tool.tags[0])}`} class="hover:text-ink">{tool.tags[0]}</a>} /
     <span class="text-ink">{tool.name}</span>
   </nav>
@@ -60,21 +60,21 @@ const jsonld = {
       {tool.editorial
         ? <>
             <p class="text-ink/90 mt-3 leading-relaxed">{tool.editorial}</p>
-            <p class="text-sm text-muted mt-3 prose">Resumo do projeto: <span set:html={tool.descriptionHtml}></span></p>
+            <p class="text-sm text-muted mt-3 prose">Project summary: <span set:html={tool.descriptionHtml}></span></p>
           </>
         : <p class="text-muted mt-3 prose" set:html={tool.descriptionHtml}></p>}
 
       <div class="flex flex-wrap gap-2 mt-5">
-        {tool.website_url && <a class="px-3 py-1.5 rounded-lg bg-accent text-white text-sm font-medium" href={tool.website_url} target="_blank" rel="noopener">Site oficial ↗</a>}
-        {tool.source_code_url && <a class="px-3 py-1.5 rounded-lg border border-line text-sm" href={tool.source_code_url} target="_blank" rel="noopener">Código-fonte</a>}
+        {tool.website_url && <a class="px-3 py-1.5 rounded-lg bg-accent text-white text-sm font-medium" href={tool.website_url} target="_blank" rel="noopener">Official site ↗</a>}
+        {tool.source_code_url && <a class="px-3 py-1.5 rounded-lg border border-line text-sm" href={tool.source_code_url} target="_blank" rel="noopener">Source code</a>}
         {tool.demo_url && <a class="px-3 py-1.5 rounded-lg border border-line text-sm" href={tool.demo_url} target="_blank" rel="noopener">Demo</a>}
       </div>
 
       <dl class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 text-sm">
-        <div><dt class="text-muted">Estrelas</dt><dd class="text-ink">{tool.stargazers_count.toLocaleString('pt-BR')}</dd></div>
-        <div><dt class="text-muted">Licença</dt><dd class="text-ink">{tool.licenses.join(', ') || '—'}</dd></div>
-        <div><dt class="text-muted">Plataforma</dt><dd class="text-ink">{tool.platforms.join(', ') || '—'}</dd></div>
-        <div><dt class="text-muted">Versão</dt><dd class="text-ink">{tool.current_release?.tag || '—'}</dd></div>
+        <div><dt class="text-muted">Stars</dt><dd class="text-ink">{tool.stargazers_count.toLocaleString('en-US')}</dd></div>
+        <div><dt class="text-muted">License</dt><dd class="text-ink">{tool.licenses.join(', ') || '—'}</dd></div>
+        <div><dt class="text-muted">Platform</dt><dd class="text-ink">{tool.platforms.join(', ') || '—'}</dd></div>
+        <div><dt class="text-muted">Version</dt><dd class="text-ink">{tool.current_release?.tag || '—'}</dd></div>
       </dl>
 
       <div class="flex flex-wrap gap-2 mt-6">
@@ -89,11 +89,11 @@ const jsonld = {
         <a href={tool.website_url} target="_blank" rel="noopener" class="block rounded-xl border border-line bg-panel overflow-hidden shadow-sm hover:shadow-md transition">
           <img
             src={`https://s0.wp.com/mshots/v1/${encodeURIComponent(tool.website_url)}?w=640`}
-            alt={`Captura de tela do ${tool.name}`}
+            alt={`Screenshot of ${tool.name}`}
             width="640" height="400" loading="lazy" decoding="async"
             class="w-full aspect-[16/10] object-cover object-top bg-panel-2"
           />
-          <span class="block text-xs text-muted px-3 py-2">Prévia do site oficial ↗</span>
+          <span class="block text-xs text-muted px-3 py-2">Preview of the official site ↗</span>
         </a>
       )}
       <HostingBox toolName={tool.name} />
@@ -102,7 +102,7 @@ const jsonld = {
 
   {related.length > 0 && (
     <section class="mt-12">
-      <h2 class="text-lg font-semibold text-ink mb-3">Alternativas parecidas</h2>
+      <h2 class="text-lg font-semibold text-ink mb-3">Similar alternatives</h2>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {related.map((t) => <ToolCard tool={t} />)}
       </div>
