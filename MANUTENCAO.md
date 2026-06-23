@@ -3,6 +3,8 @@
 > Guia auto-suficiente. Daqui a semanas/meses, você (ou um Claude Code aberto neste repo)
 > consegue gerar um "lote" de conteúdo e publicar **sem depender de chat antigo nem de robô**.
 
+> ⚠️ **TODO o conteúdo do site é em INGLÊS** (público global). Gere blurbs, descrições e intros **sempre em inglês** — este guia (MANUTENCAO.md) está em pt só pra você.
+
 ## TL;DR — o ciclo
 1. **Descobrir** o que falta (`npm run helper`).
 2. **Gerar** o lote com o Claude (prompts prontos na seção 5).
@@ -58,7 +60,7 @@ git add data/ && git commit -m "content: novo lote" && git push origin main
 ### A) Alternativas — `data/alternatives.json` (MAIOR VALOR de SEO)
 Cada entrada vira `/alternative-to/<slug>`. O slug é gerado automático do `proprietary`.
 ```json
-{ "proprietary": "Nome do Serviço Pago", "blurb": "1 frase em pt-BR.", "tags": ["Tag EXATA", "Outra Tag"] }
+{ "proprietary": "Paid Service Name", "blurb": "1 sentence in ENGLISH.", "tags": ["EXACT Tag", "Other Tag"] }
 ```
 **Regras:**
 - `proprietary`: serviço pago famoso que as pessoas querem substituir. **Não repetir** os de `helper covered`.
@@ -68,7 +70,7 @@ Cada entrada vira `/alternative-to/<slug>`. O slug é gerado automático do `pro
 ### B) Descrições únicas — `data/descriptions.json` (anti conteúdo duplicado)
 Objeto `{ "slug": "texto" }`. Substitui a descrição padrão (que é igual à de mil sites) na página da ferramenta.
 ```json
-{ "nome-do-slug": "2 a 3 frases ORIGINAIS em pt-BR: o que o app faz + ângulo self-hosted + a qual serviço pago ele é alternativa." }
+{ "slug-name": "2-3 ORIGINAL sentences in ENGLISH: what the app does + self-hosted angle + which paid service it replaces." }
 ```
 **Regras:**
 - O `slug` precisa existir — pegue de `helper needdesc` (já vem ordenado por popularidade).
@@ -88,14 +90,14 @@ Objeto `{ "slug": "texto" }`. Substitui a descrição padrão (que é igual à d
 ```
 Leia MANUTENCAO.md seção 4A. Rode "npm run helper -- tags" e "npm run helper -- covered".
 Adicione 40 serviços proprietários NOVOS e populares em data/alternatives.json (sem repetir os
-já cobertos), cada um com blurb pt-BR de 1 frase e tags EXATAS da lista. Depois rode
+já cobertos), cada um com blurb de 1 frase EM INGLÊS e tags EXATAS da lista. Depois rode
 "npm run build" e "npm run audit" e corrija o que aparecer. Não altere mais nenhum arquivo.
 ```
 
 **Lote de descrições:**
 ```
 Leia MANUTENCAO.md seção 4B. Rode "npm run helper -- needdesc 50". Para esses apps, escreva
-descrições originais em pt-BR (2-3 frases) em data/descriptions.json, somando às existentes
+descrições originais EM INGLÊS (2-3 frases) em data/descriptions.json, somando às existentes
 (não remova nenhuma). Rode "npm run build" e "npm run audit". Não altere mais nenhum arquivo.
 ```
 
