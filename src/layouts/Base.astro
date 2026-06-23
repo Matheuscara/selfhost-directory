@@ -71,36 +71,31 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
       </div>
     </footer>
 
-    <div id="cursor-ring" aria-hidden="true"></div>
-    <div id="cursor-dot" aria-hidden="true"></div>
-
     <script is:inline>
-      // cursor personalizado: bolinha + anel com rastro (só em mouse fino)
+      // rastro do mouse: pontinhos que aparecem no caminho e somem (cursor nativo intacto)
       (function () {
         if (!window.matchMedia || !window.matchMedia('(pointer: fine)').matches) return;
-        var dot = document.getElementById('cursor-dot');
-        var ring = document.getElementById('cursor-ring');
-        if (!dot || !ring) return;
-        document.documentElement.classList.add('custom-cursor');
-        var mx = 0, my = 0, rx = 0, ry = 0, shown = false;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var N = 16, dots = [], i = 0;
+        for (var k = 0; k < N; k++) {
+          var d = document.createElement('div');
+          d.className = 'trail-dot';
+          document.body.appendChild(d);
+          dots.push(d);
+        }
         window.addEventListener('mousemove', function (e) {
-          mx = e.clientX; my = e.clientY;
-          dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-          if (!shown) { shown = true; dot.style.opacity = 1; ring.style.opacity = ''; }
+          var d = dots[i];
+          i = (i + 1) % N;
+          d.style.transition = 'none';
+          d.style.left = e.clientX + 'px';
+          d.style.top = e.clientY + 'px';
+          d.style.opacity = '0.6';
+          d.style.transform = 'translate(-50%, -50%) scale(1)';
+          void d.offsetWidth; // força reflow p/ reiniciar a transição
+          d.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          d.style.opacity = '0';
+          d.style.transform = 'translate(-50%, -50%) scale(0.2)';
         });
-        (function loop() {
-          rx += (mx - rx) * 0.2; ry += (my - ry) * 0.2;
-          ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-          requestAnimationFrame(loop);
-        })();
-        document.addEventListener('mouseover', function (e) {
-          if (e.target.closest('a,button,input,summary,[role=button]')) ring.classList.add('cursor-lg');
-        });
-        document.addEventListener('mouseout', function (e) {
-          if (e.target.closest('a,button,input,summary,[role=button]')) ring.classList.remove('cursor-lg');
-        });
-        document.documentElement.addEventListener('mouseleave', function () { dot.style.opacity = 0; ring.style.opacity = 0; });
-        document.documentElement.addEventListener('mouseenter', function () { dot.style.opacity = 1; ring.style.opacity = ''; });
       })();
     </script>
 
