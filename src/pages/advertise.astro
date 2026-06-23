@@ -1,49 +1,118 @@
 ---
 import Base from '../layouts/Base.astro';
-import { getSoftware } from '../lib/data';
+import { getSoftware, getCategories } from '../lib/data';
 
-// edit when you set your contact email / pricing
+// TODO: set your real contact email here
 const CONTACT = 'contact@YOURDOMAIN.com';
 const total = getSoftware().length;
+const cats = getCategories().length;
 
 const tiers = [
-  { name: 'Category feature', price: '$29/mo', perks: ['Top of 1 category of your choice', '"Sponsored" badge', 'Do-follow link to your site'] },
-  { name: 'Homepage feature', price: '$79/mo', perks: ['Fixed slot on the homepage', 'Shown across all searches', 'Everything in the previous plan'] },
-  { name: 'Takeover', price: '$199/mo', perks: ['Homepage + 3 categories', 'Banner at the top of the site', 'Monthly click report'] },
+  {
+    name: 'Category feature',
+    price: '$29',
+    tagline: 'Own one category',
+    perks: ['Pinned to the top of 1 category of your choice', '"Sponsored" badge', 'Do-follow link to your site', 'Cancel anytime'],
+    highlight: false,
+  },
+  {
+    name: 'Homepage feature',
+    price: '$79',
+    tagline: 'Maximum visibility',
+    perks: ['Fixed slot on the homepage', 'Shown on every page via the featured row', 'Do-follow link + logo', 'Everything in Category feature'],
+    highlight: true,
+  },
+  {
+    name: 'Takeover',
+    price: '$199',
+    tagline: 'Own the site',
+    perks: ['Homepage + up to 3 categories', 'Top banner across the site', 'Monthly click & impression report', 'Priority placement'],
+    highlight: false,
+  },
+];
+
+const audiences = [
+  { icon: '🧑‍💻', t: 'Developers & founders', d: 'Looking for tools to build with and self-host.' },
+  { icon: '🖥️', t: 'Sysadmins & DevOps', d: 'Choosing what to deploy on their servers.' },
+  { icon: '🏠', t: 'Homelab enthusiasts', d: 'High-intent buyers of VPS, NAS and hardware.' },
+];
+
+const promote = [
+  { t: 'Hosting & VPS', d: 'Reach people deciding where to host their next app.' },
+  { t: 'Developer tools & SaaS', d: 'Put your product next to the open source alternatives.' },
+  { t: 'Open source projects', d: 'Boost your tool to the top of its category.' },
 ];
 ---
-<Base title="Advertise on SelfHost Directory — reach people looking for self-hosting"
-      description="Put your tool, hosting or product in front of a technical audience actively looking for self-hosted and open source solutions.">
-  <section class="text-center py-8">
-    <h1 class="text-3xl font-bold text-ink">Put your tool in front of decision-makers</h1>
-    <p class="text-muted mt-3 max-w-2xl mx-auto">
-      Our audience is technical and high-intent: developers, sysadmins and homelab enthusiasts actively
-      looking for what to install on their own server. Advertise alongside {total.toLocaleString('en-US')} tools.
+<Base title="Advertise on SelfHost Directory — reach a high-intent self-hosting audience"
+      description="Put your tool, hosting or product in front of developers, sysadmins and homelab enthusiasts actively choosing what to self-host.">
+  <section class="hero-gradient rounded-3xl border border-line px-6 py-14 text-center">
+    <span class="inline-block text-xs font-medium px-3 py-1 rounded-full bg-panel/70 border border-line text-accent">Advertising</span>
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-ink mt-4 max-w-3xl mx-auto">
+      Reach people at the exact moment they choose what to self-host
+    </h1>
+    <p class="text-muted mt-4 max-w-2xl mx-auto text-base sm:text-lg">
+      A technical, high-intent audience browsing {total.toLocaleString('en-US')} tools across {cats} categories —
+      deciding what to install and where to host it.
     </p>
+    <a href="#plans" class="inline-block mt-7 px-6 py-3 rounded-xl bg-accent text-white font-semibold text-sm shadow-sm hover:opacity-90 transition">See plans</a>
   </section>
 
-  <div class="grid md:grid-cols-3 gap-4 mt-6">
-    {tiers.map((t, i) => (
-      <div class={`rounded-xl border p-5 ${i === 1 ? 'border-accent bg-panel-2' : 'border-line bg-panel'}`}>
-        {i === 1 && <span class="text-[11px] px-2 py-0.5 rounded-full bg-accent/20 text-accent">most popular</span>}
-        <h2 class="text-lg font-semibold text-ink mt-2">{t.name}</h2>
-        <p class="text-2xl font-bold text-ink mt-1">{t.price}</p>
-        <ul class="mt-4 space-y-2 text-sm text-muted">
-          {t.perks.map((p) => <li>✓ {p}</li>)}
-        </ul>
-        <a href={`mailto:${CONTACT}?subject=${encodeURIComponent('Advertising — ' + t.name)}`}
-           class="block text-center mt-5 px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium">I want this</a>
+  <section class="grid sm:grid-cols-3 gap-4 mt-10">
+    {audiences.map((a) => (
+      <div class="rounded-xl border border-line bg-panel p-5 shadow-sm">
+        <div class="text-2xl">{a.icon}</div>
+        <h2 class="font-semibold text-ink mt-2">{a.t}</h2>
+        <p class="text-sm text-muted mt-1">{a.d}</p>
       </div>
     ))}
-  </div>
+  </section>
 
-  <section class="mt-12 max-w-2xl">
-    <h2 class="text-xl font-semibold text-ink mb-3">How it works</h2>
-    <ol class="space-y-2 text-sm text-muted list-decimal list-inside">
-      <li>Pick a plan and send your name, link and a short blurb to <a class="underline text-accent" href={`mailto:${CONTACT}`}>{CONTACT}</a>.</li>
-      <li>We publish your feature within 48h.</li>
-      <li>Cancel any time. No lock-in.</li>
+  <section id="plans" class="mt-16 scroll-mt-20">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold text-ink">Simple, flat pricing</h2>
+      <p class="text-muted mt-1">No bidding, no per-click games. One flat monthly fee.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5 mt-8 items-start">
+      {tiers.map((t) => (
+        <div class={`rounded-2xl border p-6 shadow-sm relative ${t.highlight ? 'border-accent ring-2 ring-accent/30 bg-panel md:-mt-2' : 'border-line bg-panel'}`}>
+          {t.highlight && <span class="absolute -top-3 left-1/2 -translate-x-1/2 text-[11px] px-3 py-1 rounded-full bg-accent text-white font-medium">Most popular</span>}
+          <h3 class="font-semibold text-ink">{t.name}</h3>
+          <p class="text-xs text-muted mt-0.5">{t.tagline}</p>
+          <p class="mt-3"><span class="text-3xl font-extrabold text-ink">{t.price}</span><span class="text-muted text-sm">/mo</span></p>
+          <ul class="mt-5 space-y-2 text-sm text-muted">
+            {t.perks.map((p) => <li class="flex gap-2"><span class="text-accent">✓</span><span>{p}</span></li>)}
+          </ul>
+          <a href={`mailto:${CONTACT}?subject=${encodeURIComponent('Advertising — ' + t.name)}`}
+             class={`block text-center mt-6 px-4 py-2.5 rounded-lg text-sm font-medium transition ${t.highlight ? 'bg-accent text-white hover:opacity-90' : 'border border-line text-ink hover:bg-panel-2'}`}>Get started</a>
+        </div>
+      ))}
+    </div>
+    <p class="text-center text-xs text-muted mt-6">Launch pricing — locked in for early sponsors as traffic grows.</p>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="text-2xl font-bold text-ink text-center">What you can promote</h2>
+    <div class="grid sm:grid-cols-3 gap-4 mt-8">
+      {promote.map((p) => (
+        <div class="rounded-xl border border-line bg-panel p-5 shadow-sm">
+          <h3 class="font-semibold text-ink">{p.t}</h3>
+          <p class="text-sm text-muted mt-1">{p.d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mt-16 max-w-2xl mx-auto">
+    <h2 class="text-2xl font-bold text-ink">How it works</h2>
+    <ol class="space-y-2 text-sm text-muted list-decimal list-inside mt-4">
+      <li>Pick a plan and email your name, link and a short blurb to <a class="underline text-accent" href={`mailto:${CONTACT}`}>{CONTACT}</a>.</li>
+      <li>We publish your placement within 48 hours.</li>
+      <li>Cancel anytime — no contract, no lock-in.</li>
     </ol>
-    <p class="text-xs text-muted mt-6">Launch pricing — subject to change as traffic grows.</p>
+    <div class="mt-8 rounded-xl border border-line bg-panel-2 p-5 text-center">
+      <p class="text-ink font-medium">Want to advertise?</p>
+      <a href={`mailto:${CONTACT}?subject=${encodeURIComponent('Advertising on SelfHost Directory')}`}
+         class="inline-block mt-3 px-6 py-3 rounded-xl bg-accent text-white font-semibold text-sm shadow-sm hover:opacity-90 transition">Contact us</a>
+    </div>
   </section>
 </Base>
