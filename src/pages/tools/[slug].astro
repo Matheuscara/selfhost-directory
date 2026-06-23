@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import HostingBox from '../../components/HostingBox.astro';
+import Favicon from '../../components/Favicon.astro';
 import { getSoftware, getTool, relatedTools, slugify } from '../../lib/data';
 
 export function getStaticPaths() {
@@ -52,7 +53,10 @@ const jsonld = {
 
   <div class="grid lg:grid-cols-3 gap-8">
     <div class="lg:col-span-2">
-      <h1 class="text-3xl font-bold text-ink">{tool.name}</h1>
+      <div class="flex items-center gap-3">
+        <Favicon url={tool.website_url} class="w-12 h-12" />
+        <h1 class="text-3xl font-bold text-ink">{tool.name}</h1>
+      </div>
       {tool.editorial
         ? <>
             <p class="text-ink/90 mt-3 leading-relaxed">{tool.editorial}</p>
@@ -80,7 +84,18 @@ const jsonld = {
       </div>
     </div>
 
-    <div class="lg:col-span-1">
+    <div class="lg:col-span-1 space-y-6">
+      {tool.website_url && (
+        <a href={tool.website_url} target="_blank" rel="noopener" class="block rounded-xl border border-line bg-panel overflow-hidden shadow-sm hover:shadow-md transition">
+          <img
+            src={`https://s0.wp.com/mshots/v1/${encodeURIComponent(tool.website_url)}?w=640`}
+            alt={`Captura de tela do ${tool.name}`}
+            width="640" height="400" loading="lazy" decoding="async"
+            class="w-full aspect-[16/10] object-cover object-top bg-panel-2"
+          />
+          <span class="block text-xs text-muted px-3 py-2">Prévia do site oficial ↗</span>
+        </a>
+      )}
       <HostingBox toolName={tool.name} />
     </div>
   </div>

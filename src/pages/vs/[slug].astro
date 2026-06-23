@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import HostingBox from '../../components/HostingBox.astro';
+import Favicon from '../../components/Favicon.astro';
 import { getComparisons, getComparison, slugify } from '../../lib/data';
 
 export function getStaticPaths() {
@@ -10,6 +11,7 @@ export function getStaticPaths() {
 const { slug } = Astro.params;
 const cmp = getComparison(slug!)!;
 const names = cmp.tools.map((t) => t.name);
+const maxStars = Math.max(...cmp.tools.map((t) => t.stargazers_count), 1);
 
 const faq = [
   {
@@ -57,7 +59,11 @@ const jsonld = {
       <tbody>
         {cmp.tools.map((t) => (
           <tr class="border-b border-line">
-            <td class="py-3 pr-4"><a href={`/tools/${t.slug}`} class="text-accent hover:underline font-medium">{t.name}</a></td>
+            <td class="py-3 pr-4">
+              <a href={`/tools/${t.slug}`} class="flex items-center gap-2 text-accent hover:underline font-medium">
+                <Favicon url={t.website_url} class="w-6 h-6" />{t.name}
+              </a>
+            </td>
             <td class="py-3 pr-4 text-ink">{t.stargazers_count.toLocaleString('pt-BR')}</td>
             <td class="py-3 pr-4 text-muted">{t.licenses.join(', ') || '—'}</td>
             <td class="py-3 pr-4 text-muted">{t.platforms.slice(0, 3).join(', ') || '—'}</td>
@@ -66,6 +72,19 @@ const jsonld = {
       </tbody>
     </table>
   </div>
+
+  <section class="mt-8 rounded-xl border border-line bg-panel p-5 shadow-sm">
+    <h2 class="text-sm font-semibold text-muted uppercase tracking-wide mb-4">Popularidade (★ no GitHub)</h2>
+    {cmp.tools.map((t) => (
+      <div class="flex items-center gap-3 mb-2.5">
+        <span class="w-28 sm:w-36 truncate text-sm text-ink">{t.name}</span>
+        <div class="flex-1 bg-panel-2 rounded-full h-5 overflow-hidden">
+          <div class="h-full bg-accent rounded-full" style={`width:${((t.stargazers_count / maxStars) * 100).toFixed(1)}%`}></div>
+        </div>
+        <span class="text-xs text-muted w-16 text-right">{t.stargazers_count.toLocaleString('pt-BR')}</span>
+      </div>
+    ))}
+  </section>
 
   <div class="grid lg:grid-cols-3 gap-8 mt-10">
     <div class="lg:col-span-2 space-y-6">

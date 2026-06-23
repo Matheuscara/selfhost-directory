@@ -1,0 +1,16 @@
+---
+// Ícone (favicon) do app a partir do website_url. Usa o serviço da DuckDuckGo.
+const { url, class: klass = 'w-9 h-9' } = Astro.props as { url?: string; class?: string };
+let host: string | null = null;
+try { if (url) host = new URL(url).hostname.replace(/^www\./, ''); } catch { host = null; }
+---
+{host ? (
+  <img
+    src={`https://icons.duckduckgo.com/ip3/${host}.ico`}
+    alt=""
+    width="36" height="36" loading="lazy" decoding="async"
+    class={`${klass} shrink-0 rounded-lg bg-white border border-line object-contain p-0.5`}
+  />
+) : (
+  <span class={`${klass} shrink-0 rounded-lg bg-panel-2 border border-line`}></span>
+)}
