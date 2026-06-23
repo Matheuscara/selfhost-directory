@@ -97,6 +97,28 @@ html.dark .hero-gradient {
   .mascot .eyes { animation: none; }
 }
 
+/* ---- Cursor personalizado (bolinha + anel com rastro) ---- */
+#cursor-dot, #cursor-ring {
+  position: fixed; left: 0; top: 0; border-radius: 9999px;
+  pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
+  opacity: 0; transition: opacity .25s ease;
+}
+#cursor-dot { width: 7px; height: 7px; background: var(--color-accent); }
+#cursor-ring {
+  width: 30px; height: 30px; border: 2px solid var(--color-accent); opacity: .45;
+  transition: width .18s ease, height .18s ease, opacity .18s ease, background-color .18s ease;
+}
+#cursor-ring.cursor-lg {
+  width: 46px; height: 46px; opacity: .85;
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+}
+/* só esconde o cursor nativo quando o JS ativa o cursor custom (html.custom-cursor) */
+html.custom-cursor, html.custom-cursor * { cursor: none !important; }
+html.custom-cursor input, html.custom-cursor textarea { cursor: none; }
+@media (pointer: coarse) {
+  #cursor-dot, #cursor-ring { display: none; }
+}
+
 /* busca Pagefind — acompanha o tema */
 :root {
   --pagefind-ui-primary: var(--color-accent);

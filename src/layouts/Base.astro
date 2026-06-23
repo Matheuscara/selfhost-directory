@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Mascot from '../components/Mascot.astro';
 const { title, description, noindex } = Astro.props as { title: string; description?: string; noindex?: boolean };
 const desc = description ?? 'A directory of self-hosted and open source alternatives. Find the right app to run on your own server.';
 const SITE_NAME = 'SelfHost Directory';
@@ -37,8 +38,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   <body class="min-h-screen flex flex-col">
     <header class="border-b border-line bg-panel/80 backdrop-blur sticky top-0 z-10 shadow-sm">
       <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center gap-5 text-sm font-medium">
-        <a href="/" class="font-bold text-ink text-base flex items-center gap-1.5">
-          <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-accent text-white">⚓</span>
+        <a href="/" class="font-bold text-ink text-base flex items-center gap-2">
+          <Mascot class="w-8 h-8" animate={false} />
           <span>{SITE_NAME}</span>
         </a>
         <a href="/categories" class="text-muted hover:text-ink px-2 py-1 rounded-md hover:bg-panel-2 transition">Categories</a>
@@ -69,6 +70,39 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
         <p>Some hosting links are affiliate links. This doesn't change the price for you and helps keep the site running.</p>
       </div>
     </footer>
+
+    <div id="cursor-ring" aria-hidden="true"></div>
+    <div id="cursor-dot" aria-hidden="true"></div>
+
+    <script is:inline>
+      // cursor personalizado: bolinha + anel com rastro (só em mouse fino)
+      (function () {
+        if (!window.matchMedia || !window.matchMedia('(pointer: fine)').matches) return;
+        var dot = document.getElementById('cursor-dot');
+        var ring = document.getElementById('cursor-ring');
+        if (!dot || !ring) return;
+        document.documentElement.classList.add('custom-cursor');
+        var mx = 0, my = 0, rx = 0, ry = 0, shown = false;
+        window.addEventListener('mousemove', function (e) {
+          mx = e.clientX; my = e.clientY;
+          dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+          if (!shown) { shown = true; dot.style.opacity = 1; ring.style.opacity = ''; }
+        });
+        (function loop() {
+          rx += (mx - rx) * 0.2; ry += (my - ry) * 0.2;
+          ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+          requestAnimationFrame(loop);
+        })();
+        document.addEventListener('mouseover', function (e) {
+          if (e.target.closest('a,button,input,summary,[role=button]')) ring.classList.add('cursor-lg');
+        });
+        document.addEventListener('mouseout', function (e) {
+          if (e.target.closest('a,button,input,summary,[role=button]')) ring.classList.remove('cursor-lg');
+        });
+        document.documentElement.addEventListener('mouseleave', function () { dot.style.opacity = 0; ring.style.opacity = 0; });
+        document.documentElement.addEventListener('mouseenter', function () { dot.style.opacity = 1; ring.style.opacity = ''; });
+      })();
+    </script>
 
     <script is:inline>
       (function () {
