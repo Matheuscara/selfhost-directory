@@ -37,10 +37,10 @@ nix-shell -p nodejs_22 --run 'npm run dev'     # preview local
 nix-shell -p nodejs_22 --run 'npm run build'   # -> dist/ (estático)
 ```
 
-## Deploy (pendente — decisão do Matheus)
-- Repo no GitHub (conta pessoal `Matheuscara`, público) → **Cloudflare Pages** (build `npm run build`, output `dist/`), grátis e global.
-- Definir **marca + domínio** (placeholder atual: `SelfHost Directory` / `*.pages.dev`).
-- `SITE_URL` no env do Pages aponta pro domínio final.
+## Deploy — NO AR ✅
+- **Produção:** https://selfhostedalternatives.com (Cloudflare Workers, assets estáticos via `wrangler.jsonc`).
+- Repo GitHub (conta pessoal `Matheuscara`, público); cada push na `main` redeploya automático.
+- Domínio padrão fixado em `astro.config.mjs` (canonical/sitemap/robots corretos).
 
 ## Manutenção por agentes (paperclip) — a fazer
 Routine semanal: `data:update` → expandir `alternatives.json` (mais serviços pagos) →
